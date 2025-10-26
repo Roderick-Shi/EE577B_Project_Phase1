@@ -1,4 +1,3 @@
-
 module buffer (
     input  clk,              // System clock
     input  reset,            // Synchronous reset (active high)
