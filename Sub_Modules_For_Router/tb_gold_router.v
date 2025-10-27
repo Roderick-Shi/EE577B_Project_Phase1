@@ -1,9 +1,8 @@
-`timescale 1ns / 1ns
+`timescale 1ns/1ns
 
-module tb;
-  
+module tb_gold_router;
+
   reg clk, reset;
-//   reg polarity;
   reg NIB_si, SIB_si, WIB_si, EIB_si, PEIB_si;
   reg [63:0] NIB_di, SIB_di, WIB_di, EIB_di, PEIB_di;
   wire NIB_ri, SIB_ri, WIB_ri, EIB_ri, PEIB_ri;
@@ -11,199 +10,147 @@ module tb;
   wire [63:0] NOB_do, SOB_do, WOB_do, EOB_do, PEOB_do;
   reg  NOB_ro, SOB_ro, WOB_ro, EOB_ro, PEOB_ro;
   wire polarity_to_NIC;
+
   integer fd;
-  
-       gold_router uut (
-          .clk(clk),
-          .reset(reset),
 
-          // Input side mapping
-          .up_si(NIB_si),
-          .down_si(SIB_si),
-          .left_si(WIB_si),
-          .right_si(EIB_si),
-          .NIC_si(PEIB_si),
-
-          .up_di(NIB_di),
-          .down_di(SIB_di),
-          .left_di(WIB_di),
-          .right_di(EIB_di),
-          .NIC_di(PEIB_di),
-
-          .up_ri(NIB_ri),
-          .down_ri(SIB_ri),
-          .left_ri(WIB_ri),
-          .right_ri(EIB_ri),
-          .NIC_ri(PEIB_ri),
-
-          // Output side mapping
-          .up_so(NOB_so),
-          .down_so(SOB_so),
-          .left_so(WOB_so),
-          .right_so(EOB_so),
-          .NIC_so(PEOB_so),
-
-          .up_do(NOB_do),
-          .down_do(SOB_do),
-          .left_do(WOB_do),
-          .right_do(EOB_do),
-          .NIC_do(PEOB_do),
-
-          .up_ro(NOB_ro),
-          .down_ro(SOB_ro),
-          .left_ro(WOB_ro),
-          .right_ro(EOB_ro),
-          .NIC_ro(PEOB_ro),
-
-          .polarity_to_NIC(polarity_to_NIC)
-      );
+  //----------------------------------------
+  // Flit Construction Helper
+  //----------------------------------------
+  function [63:0] make_flit;
+    input vc;
+    input dirX;  // 0=Right, 1=Left
+    input dirY;  // 0=Up,    1=Down
+    input [3:0] hopX;
+    input [3:0] hopY;
+  begin
+    make_flit = { vc,
+                  dirX, dirY,
+                  5'b0,       // reserved [60:56]
+                  hopX, hopY, // [55:48]
+                  48'b0 };    // payload for now
+  end
+  endfunction
 
 
-  // Clock generation
+  //----------------------------------------
+  // DUT
+  //----------------------------------------
+  gold_router uut (
+      .clk(clk),
+      .reset(reset),
+      .up_si(NIB_si), .down_si(SIB_si), .left_si(WIB_si), .right_si(EIB_si), .NIC_si(PEIB_si),
+      .up_di(NIB_di), .down_di(SIB_di), .left_di(WIB_di), .right_di(EIB_di), .NIC_di(PEIB_di),
+      .up_ri(NIB_ri), .down_ri(SIB_ri), .left_ri(WIB_ri), .right_ri(EIB_ri), .NIC_ri(PEIB_ri),
+      .up_so(NOB_so), .down_so(SOB_so), .left_so(WOB_so), .right_so(EOB_so), .NIC_so(PEOB_so),
+      .up_do(NOB_do), .down_do(SOB_do), .left_do(WOB_do), .right_do(EOB_do), .NIC_do(PEOB_do),
+      .up_ro(NOB_ro), .down_ro(SOB_ro), .left_ro(WOB_ro), .right_ro(EOB_ro), .NIC_ro(PEOB_ro),
+      .polarity_to_NIC(polarity_to_NIC)
+  );
+
+
+  //----------------------------------------
+  // Clock
+  //----------------------------------------
   initial begin
     clk = 0;
-    forever #2 clk = ~clk;
+    forever #2 clk = ~clk; //250MHz
   end
-  
-//   initial begin
-//     polarity = 0;
-//     forever #4 polarity = ~polarity;
-//   end
-  
+
+
+  //----------------------------------------
+  // Main Stimulus
+  //----------------------------------------
   initial begin
     fd = $fopen("tb_gold_router.txt","w");
-    //Asserting Rest for few cycles
-    NIB_di	= 0;
-    SIB_di	= 0;
-    WIB_di	= 0;
-    EIB_di	= 0;
-    PEIB_di	= 0;
+
+    {NIB_si,SIB_si,WIB_si,EIB_si,PEIB_si} = 5'b0;
+    {NIB_di,SIB_di,WIB_di,EIB_di,PEIB_di} = 0;
+    {NOB_ro,SOB_ro,WOB_ro,EOB_ro,PEOB_ro} = 5'b1; // allow output initially
+
     reset = 1'b1;
-    #16;
-    reset = 1'b0;
-    
-    $monitor(fd,"Time = %0t, NIB_di = %0h, SIB_di = %0h, WIB_di = %0h, EIB_di = %0h, PEIB_di = %0h, NOB_do = %0h, SOB_do = %0h, WOB_do = %0h, EOB_do = %0h, PEOB_do = %0h", $time, NIB_di, SIB_di, WIB_di, EIB_di, PEIB_di, NOB_do, SOB_do, WOB_do, EOB_do, PEOB_do);
-    
-    $fwrite(fd,"Testing Routing and switching\n");
-    
-    // South to North
-    SIB_si = 1'b1;
-    SIB_di = 64'h8003_0000_0000_0000;
-    
+    #16 reset = 1'b0;
+
+    $display("===== TEST START =====");
+
+    //-------------------------------------------------
+    // CASE 1: South → Up (Y direction)
+    //-------------------------------------------------
+    SIB_si = 1;
+    SIB_di = make_flit(1, 0, 0, 4'd0, 4'd3);  // hopY=3 upward
+    #8 SIB_si = 0;
+
+    //-------------------------------------------------
+    // CASE 2: North → Down (Y direction)
+    //-------------------------------------------------
+    NIB_si = 1;
+    NIB_di = make_flit(1, 0, 1, 4'd0, 4'd3);  // hopY=3 downward
+    #8 NIB_si = 0;
+
+    //-------------------------------------------------
+    // CASE 3: East → West → Up (X then Y)
+    //-------------------------------------------------
+    EIB_si = 1;
+    EIB_di = make_flit(1, 1, 0, 4'd2, 4'd1);  // 2 left, then up
+    #8 EIB_si = 0;
+
+    //-------------------------------------------------
+    // CASE 4: West → East → PE (local)
+    //-------------------------------------------------
+    WIB_si = 1;
+    WIB_di = make_flit(1, 0, 1, 4'd1, 4'd0);  // 1 right then NIC
+    #8 WIB_si = 0;
+
+    //-------------------------------------------------
+    // CASE 5: PE → East (inject from NIC port)
+    //-------------------------------------------------
+    PEIB_si = 1;
+    PEIB_di = make_flit(1, 0, 1, 4'd2, 4'd0);
+    #8 PEIB_si = 0;
+
+    //-------------------------------------------------
+    // Conflict Test (West & PE both want East)
+    //-------------------------------------------------
+    WIB_si = 1;
+    PEIB_si = 1;
+    WIB_di = make_flit(1, 0, 0, 4'd3, 4'd1);
+    PEIB_di = make_flit(1, 0, 1, 4'd2, 4'd0);
+    #8 {WIB_si,PEIB_si}=0;
+
+    //-------------------------------------------------
+    // Handshake stall + resume
+    //-------------------------------------------------
+    EOB_ro = 0; // backpressure
+    WIB_si = 1;
+    WIB_di = make_flit(1,0,0,4'd2,4'd1);
+    #8 WIB_si = 0;
+
+    EOB_ro = 1; // release
     #8;
-    SIB_si = 1'b0;
-    SIB_di = 64'h0;
-    
-    // North to South
-    NIB_si = 1'b1;
-    NIB_di = 64'h800c_0000_0000_0000;
-    
-    #8;
-    NIB_si = 1'b0;
-    NIB_di = 64'h0;
-    
-    
-    // East to South
-    EIB_si = 1'b1;
-    EIB_di = 64'h000c_0000_0000_0000;
-    
-    #8;
-    EIB_si = 1'b0;
-    
-    EIB_di = 64'b0;
-    #8;
-    
-    // West to East
-    WIB_si = 1'b1;
-    WIB_di = 64'h8033_0000_0000_0000;
-    
-    #8;
-    
-    // West to PE
-    WIB_si = 1'b1;
-    WIB_di = 64'h8000_0000_0000_0000;
-    
-    #8;
-    WIB_si = 1'b0;
-    WIB_di = 64'b0;
-    
-    // PE to East
-    PEIB_si = 1'b1;
-    PEIB_di = 64'h8022_0000_0000_0000;
-    
-    #8
-    PEIB_si = 1'b0;
-    PEIB_di = 64'h0;
-    
-    //Conflict
-    $fwrite(fd,"\n\nConflict Test\n");
-    
-    PEIB_si = 1'b1;
-    PEIB_di = 64'h8022_0000_0000_0000;
-    
-    WIB_si = 1'b1;
-    WIB_di = 64'h8033_0000_0000_0000;
-    
-    #8;
-    PEIB_si = 1'b0;
-    PEIB_di = 64'h0;
-    WIB_si = 1'b0;
-    WIB_di = 64'b0;
-    
-    #30;
-    
-    //Non - Blocking handshake
-    $fwrite(fd,"\n\nNon-Blocking Handshake\n");
-    $monitor(fd,"time = %0t, WIB_si = %0b, WIB_di = %0h, EOB_so = %0h, EOB_do = %0h", $time, WIB_si, WIB_di, EOB_so, EOB_do);
-    #6;
-    EOB_ro = 1'b1;
-    WIB_si = 1'b1;
-    WIB_di = 64'h0033_0000_0000_0000;
-    
-    #4;
-    WIB_si = 1'b0;
-    WIB_di = 64'h0;
-    
-    #8;
-    WIB_si = 1'b1;
-    WIB_di = 64'h8033_0000_0000_0000;
-    
-    #4;
-    WIB_si = 1'b0;
-    WIB_di = 64'h0;
-    
-    #16;
-    // Blocking Handshake
-    $fwrite(fd,"\n\nBlocking Handshake\n");
-    EOB_ro = 1'b0;
-    WIB_si = 1'b1;
-    WIB_di = 64'h0033_0000_0000_0000;
-    
-    #4;
-    WIB_si = 1'b0;
-    WIB_di = 64'h0;
-    
-    #8;
-    WIB_si = 1'b1;
-    WIB_di = 64'h8033_0000_0000_0000;
-    
-    #4;
-    WIB_si = 1'b0;
-    WIB_di = 64'h0;
-    EOB_ro = 1'b1;
-    
-    #4;
-    EOB_ro = 1'b0;
-    #8;
-    EOB_ro = 1'b1;
-    #4;
-    EOB_ro = 1'b0;
-    
-    #16;
-    #20;
-    
+
+    //-------------------------------------------------
+    #50;
+    $display("===== TEST DONE =====");
     $finish();
     $fclose(fd);
   end
-  
+
+
+  //----------------------------------------
+  // Monitor
+  //----------------------------------------
+  initial begin
+    $monitor("T=%0t | UP:%h  DN:%h  LT:%h  RT:%h  NIC:%h || OUT => U:%h D:%h L:%h R:%h NIC:%h",
+      $time,
+      NIB_di, SIB_di, WIB_di, EIB_di, PEIB_di,
+      NOB_do, SOB_do, WOB_do, EOB_do, PEOB_do);
+  end
+
+  //----------------------------------------
+  // VCD dump
+  //----------------------------------------
+  initial begin
+    $dumpfile("gold_router.vcd");
+    $dumpvars(0,tb_gold_router);
+  end
+
 endmodule
