@@ -1,7 +1,8 @@
 
 
 //==============================================================
-//  Module: gold_router
+//  Module: input_control
+
 //==============================================================
 `timescale 1ns/1ps
 
@@ -78,7 +79,10 @@ endmodule
 
 
 //==============================================================
-//  input_controller_4out_flat
+//  Verilog-2005: input_controller_4out_flat
+//  - Flat ports (no arrays of ports)
+//  - Includes NIC case (hop_x==0 && hop_y==0)
+//  - Parameterized mapping: which of the 4 outputs corresponds to W/E/S/NIC
 //==============================================================
 
 module input_controller_4out_flat 
@@ -118,7 +122,7 @@ module input_controller_4out_flat
 );
 
     //=============================
-    //  VC Gating + Buffer
+    // 1️⃣ VC Gating + Buffer
     //=============================
     wire vc_match = (upstream_di[63] == polarity);
 
@@ -138,7 +142,7 @@ module input_controller_4out_flat
     );
 
     //=============================
-    // Extract routing fields
+    // 2️⃣ Extract routing fields
     //=============================
     wire dir_x = buf_do[62];
     wire dir_y = buf_do[61];
@@ -150,7 +154,7 @@ module input_controller_4out_flat
     reg [63:0] updated_flit;
 
     //=============================
-    // XY Routing Logic
+    // 3️⃣ XY Routing Logic
     //=============================
     always @(*) begin
         sel = 4'b0000;
@@ -183,7 +187,7 @@ module input_controller_4out_flat
     end
 
     //=============================
-    // Generate Output Valid/Data
+    // 4️⃣ Generate Output Valid/Data
     //=============================
     assign out_valid0 = buf_so & sel[0];
     assign out_valid1 = buf_so & sel[1];
