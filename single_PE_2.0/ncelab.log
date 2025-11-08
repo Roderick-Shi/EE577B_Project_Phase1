@@ -1,0 +1,118 @@
+ncelab(64): 15.20-s079: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
+TOOL:	ncelab(64)	15.20-s079: Started on Nov 08, 2025 at 14:22:46 PST
+ncelab
+    -ACCESS +rwc
+    -NCFATAL INVSUP
+    -NCFATAL CUNOTB
+    -ERRORMAX 5
+    -UPDATE
+    -MESSAGES
+    -TIMESCALE 1ns/10ps
+    -LIBVERBOSE
+    work.tb_PE
+
+	Elaborating the design hierarchy:
+Resolving design unit 'TOP' at 'tb_PE.dut'.
+		Caching library 'work' ....... Done
+	library: 'work' views: 'module' -> found
+Resolved design unit 'TOP' at 'tb_PE.dut' to 'work.TOP:module'.
+Resolving design unit 'pipeline_4stages' at 'tb_PE.dut@TOP<module>.pipe'.
+	library: 'work' views: 'module' -> found
+Resolved design unit 'pipeline_4stages' at 'tb_PE.dut@TOP<module>.pipe' to 'work.pipeline_4stages:module'.
+Resolving design unit 'RegisterFile' at 'tb_PE.dut@TOP<module>.RF'.
+	library: 'work' views: 'module' -> found
+Resolved design unit 'RegisterFile' at 'tb_PE.dut@TOP<module>.RF' to 'work.RegisterFile:module'.
+Resolving design unit 'HDU' at 'tb_PE.dut@TOP<module>.HDU1'.
+	library: 'work' views: 'module' -> found
+Resolved design unit 'HDU' at 'tb_PE.dut@TOP<module>.HDU1' to 'work.HDU:module'.
+Resolving design unit 'counter' at 'tb_PE.dut@TOP<module>.cntr'.
+	library: 'work' views: 'module' -> found
+Resolved design unit 'counter' at 'tb_PE.dut@TOP<module>.cntr' to 'work.counter:module'.
+Resolving design unit 'ALU' at 'tb_PE.dut@TOP<module>.ALU_DUT'.
+	library: 'work' views: 'module' -> found
+Resolved design unit 'ALU' at 'tb_PE.dut@TOP<module>.ALU_DUT' to 'work.ALU:module'.
+Resolving design unit 'DW_div' at 'tb_PE.dut@TOP<module>.ALU_DUT@ALU<module>.div8_0'.
+	library: 'work' views: 'module' -> found
+Resolved design unit 'DW_div' at 'tb_PE.dut@TOP<module>.ALU_DUT@ALU<module>.div8_0' to 'work.DW_div:module'.
+Resolved design unit 'DW_div' at 'tb_PE.dut@TOP<module>.ALU_DUT@ALU<module>.div8_1' to 'work.DW_div:module'.
+Resolved design unit 'DW_div' at 'tb_PE.dut@TOP<module>.ALU_DUT@ALU<module>.div8_2' to 'work.DW_div:module'.
+Resolved design unit 'DW_div' at 'tb_PE.dut@TOP<module>.ALU_DUT@ALU<module>.div8_3' to 'work.DW_div:module'.
+Resolved design unit 'DW_div' at 'tb_PE.dut@TOP<module>.ALU_DUT@ALU<module>.div8_4' to 'work.DW_div:module'.
+Resolved design unit 'DW_div' at 'tb_PE.dut@TOP<module>.ALU_DUT@ALU<module>.div8_5' to 'work.DW_div:module'.
+Resolved design unit 'DW_div' at 'tb_PE.dut@TOP<module>.ALU_DUT@ALU<module>.div8_6' to 'work.DW_div:module'.
+Resolved design unit 'DW_div' at 'tb_PE.dut@TOP<module>.ALU_DUT@ALU<module>.div8_7' to 'work.DW_div:module'.
+Resolved design unit 'DW_div' at 'tb_PE.dut@TOP<module>.ALU_DUT@ALU<module>.div16_0' to 'work.DW_div:module'.
+Resolved design unit 'DW_div' at 'tb_PE.dut@TOP<module>.ALU_DUT@ALU<module>.div16_1' to 'work.DW_div:module'.
+Resolved design unit 'DW_div' at 'tb_PE.dut@TOP<module>.ALU_DUT@ALU<module>.div16_2' to 'work.DW_div:module'.
+Resolved design unit 'DW_div' at 'tb_PE.dut@TOP<module>.ALU_DUT@ALU<module>.div16_3' to 'work.DW_div:module'.
+Resolved design unit 'DW_div' at 'tb_PE.dut@TOP<module>.ALU_DUT@ALU<module>.div32_0' to 'work.DW_div:module'.
+Resolved design unit 'DW_div' at 'tb_PE.dut@TOP<module>.ALU_DUT@ALU<module>.div32_1' to 'work.DW_div:module'.
+Resolved design unit 'DW_div' at 'tb_PE.dut@TOP<module>.ALU_DUT@ALU<module>.div64_0' to 'work.DW_div:module'.
+Resolving design unit 'DW_sqrt' at 'tb_PE.dut@TOP<module>.ALU_DUT@ALU<module>.sqrt8_0'.
+	library: 'work' views: 'module' -> found
+Resolved design unit 'DW_sqrt' at 'tb_PE.dut@TOP<module>.ALU_DUT@ALU<module>.sqrt8_0' to 'work.DW_sqrt:module'.
+Resolved design unit 'DW_sqrt' at 'tb_PE.dut@TOP<module>.ALU_DUT@ALU<module>.sqrt8_1' to 'work.DW_sqrt:module'.
+Resolved design unit 'DW_sqrt' at 'tb_PE.dut@TOP<module>.ALU_DUT@ALU<module>.sqrt8_2' to 'work.DW_sqrt:module'.
+Resolved design unit 'DW_sqrt' at 'tb_PE.dut@TOP<module>.ALU_DUT@ALU<module>.sqrt8_3' to 'work.DW_sqrt:module'.
+Resolved design unit 'DW_sqrt' at 'tb_PE.dut@TOP<module>.ALU_DUT@ALU<module>.sqrt8_4' to 'work.DW_sqrt:module'.
+Resolved design unit 'DW_sqrt' at 'tb_PE.dut@TOP<module>.ALU_DUT@ALU<module>.sqrt8_5' to 'work.DW_sqrt:module'.
+Resolved design unit 'DW_sqrt' at 'tb_PE.dut@TOP<module>.ALU_DUT@ALU<module>.sqrt8_6' to 'work.DW_sqrt:module'.
+Resolved design unit 'DW_sqrt' at 'tb_PE.dut@TOP<module>.ALU_DUT@ALU<module>.sqrt8_7' to 'work.DW_sqrt:module'.
+Resolved design unit 'DW_sqrt' at 'tb_PE.dut@TOP<module>.ALU_DUT@ALU<module>.sqrt16_0' to 'work.DW_sqrt:module'.
+Resolved design unit 'DW_sqrt' at 'tb_PE.dut@TOP<module>.ALU_DUT@ALU<module>.sqrt16_1' to 'work.DW_sqrt:module'.
+Resolved design unit 'DW_sqrt' at 'tb_PE.dut@TOP<module>.ALU_DUT@ALU<module>.sqrt16_2' to 'work.DW_sqrt:module'.
+Resolved design unit 'DW_sqrt' at 'tb_PE.dut@TOP<module>.ALU_DUT@ALU<module>.sqrt16_3' to 'work.DW_sqrt:module'.
+Resolved design unit 'DW_sqrt' at 'tb_PE.dut@TOP<module>.ALU_DUT@ALU<module>.sqrt32_0' to 'work.DW_sqrt:module'.
+Resolved design unit 'DW_sqrt' at 'tb_PE.dut@TOP<module>.ALU_DUT@ALU<module>.sqrt32_1' to 'work.DW_sqrt:module'.
+Resolved design unit 'DW_sqrt' at 'tb_PE.dut@TOP<module>.ALU_DUT@ALU<module>.sqrt64_0' to 'work.DW_sqrt:module'.
+    .input_stage2_ID_EXMEM({Instr_to_stage_IDEXMEM, data1_to_stage_IDEXMEM, data2_to_stage_IDEXMEM}), 
+                           |
+ncelab: *W,CUVMPW (./design/Pipeline.v,833|27): port sizes differ in port connection (96/160).
+	Building instance overlay tables: .................... Done
+	Generating native compiled code:
+		work.ALU:module <0x26abe791>
+			streams:   1, words: 71092
+		work.DW_div:module <0x0bb219dd>
+			streams:   8, words: 13971
+		work.DW_div:module <0x280686b8>
+			streams:   8, words: 14184
+		work.DW_div:module <0x54644a2a>
+			streams:   8, words: 13881
+		work.DW_div:module <0x74980bbf>
+			streams:   8, words: 20186
+		work.DW_sqrt:module <0x4b79da4c>
+			streams:   4, words:  3281
+		work.DW_sqrt:module <0x4f48be3e>
+			streams:   4, words:  3334
+		work.DW_sqrt:module <0x7bbbb11c>
+			streams:   4, words:  4198
+		work.DW_sqrt:module <0x7f9611bf>
+			streams:   4, words:  3501
+		work.HDU:module <0x4c817391>
+			streams:   4, words: 11166
+		work.RegisterFile:module <0x63c99009>
+			streams:   8, words: 16948
+		work.TOP:module <0x4aa035ca>
+			streams:  46, words: 15915
+		work.counter:module <0x57badd3a>
+			streams:   5, words:  1904
+		work.pipeline_4stages:module <0x06ca9a00>
+			streams:   4, words:  1871
+		work.tb_PE:module <0x50f3550f>
+			streams:  16, words: 121996
+	Building instance specific data structures.
+	Loading native compiled code:     .................... Done
+	Design hierarchy summary:
+		                 Instances  Unique
+		Modules:                37       9
+		Registers:             983     115
+		Scalar wires:           85       -
+		Expanded wires:        713      44
+		Vectored wires:         51       -
+		Always blocks:          22       8
+		Initial blocks:         33       5
+		Cont. assignments:      55      82
+		Pseudo assignments:     13      13
+		Simulation timescale:  1ps
+	Writing initial simulation snapshot: work.tb_PE:module
+TOOL:	ncelab(64)	15.20-s079: Exiting on Nov 08, 2025 at 14:22:47 PST  (total: 00:00:01)

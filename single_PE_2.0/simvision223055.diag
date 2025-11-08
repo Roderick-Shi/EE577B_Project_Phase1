@@ -1,0 +1,112 @@
+*** Message Type: info ***
+When: Thu Oct 23 01:06:06 AM PDT 2025
+SimVision started.
+Version: TOOL:  simvision(64)   15.20-s079
+User: chuyenhs
+Host: viterbi-scf2.usc.edu
+Platform: Linux/x86_64/3.10.0-1160.119.1.el7.tuxcare.els22.x86_64
+Started: Thu Oct 23 01:06:06 AM PDT 2025
+Command: /usr/local/cadence/INCISIVE152/tools.lnx86/simvision/bin/64bit/simvision.exe -connect dc:viterbi-scf2.usc.edu:47381 -64BIT -nocopyright
+Work Directory: /home/viterbi/05/chuyenhs/ee577b/final_phase1/NIC
+ 
+*** Message Type: info ***
+When: Thu Oct 23 01:06:10 AM PDT 2025
+Create browser window: "Design Browser 1"
+ 
+*** Message Type: info ***
+When: Thu Oct 23 01:06:37 AM PDT 2025
+Create console window: "Console"
+ 
+*** Message Type: info ***
+When: Thu Oct 23 01:06:48 AM PDT 2025
+Connect to Simulator
+      Design: work.tb
+   Languages: verilog
+   Simulator: NC-Sim
+     Version: TOOL:    ncsim(64)       15.20-s079
+        User: chuyenhs
+        Host: viterbi-scf2.usc.edu
+Time Started: Thu Oct 23 01:05:59 AM PDT 2025
+  Process ID: 223054
+   Directory: /home/viterbi/05/chuyenhs/ee577b/final_phase1/NIC
+     Command: ncsim -STATUS -NOCOPYRIGHT -MESSAGES -NCFATAL INVSUP -NOWARN DLBRLK -TCL -NOLOG -NOKEY -INPUT ./scripts/runscript.tcl -GUI work.tb
+
+ 
+*** Message Type: info ***
+When: Thu Oct 23 01:06:50 AM PDT 2025
+Create utility window: "Properties"
+ 
+*** Message Type: info ***
+When: Thu Oct 23 01:08:20 AM PDT 2025
+Create waveform window: "Waveform 1"
+ 
+*** Message Type: error ***
+When: Thu Oct 23 01:12:28 AM PDT 2025
+another drag operation in progress
+    while executing
+"error "another drag operation in progress""
+    (procedure "xdnd::_dodragdrop" line 7)
+    invoked from within
+"xdnd::_dodragdrop $source $actions $types $data $button"
+    ("x11" arm line 2)
+    invoked from within
+"switch $_windowingsystem {
+      x11 {
+        set action [xdnd::_dodragdrop $source $actions $types $data $button]
+      }
+      win32 -
+      window..."
+    (procedure "tkdnd::_init_drag" line 35)
+    invoked from within
+"tkdnd::_init_drag 0 $window  "press" 0 0"
+    ("drag" arm line 11)
+    invoked from within
+"switch $method {
+    bindtarget {
+      switch [llength $args] {
+        0 {return [tkdnd::compat::bindtarget0 $window]}
+        1 {return [tkdnd::com..."
+    (procedure "::dnd" line 4)
+    invoked from within
+"::dnd drag .waveWindow0.work.user.waveset.signallist -actions copy -id {223055 ::.waveWindow0.work.user.waveset}"
+    ("eval" body line 1)
+    invoked from within
+"# Compiled -- no source code available
+error "called a copy of a compiled script""
+    (procedure "cwidgets::dnd" line 1)
+    invoked from within
+"cwidgets::dnd drag .waveWindow0.work.user.waveset.signallist -actions copy -id {223055 ::.waveWindow0.work.user.waveset}"
+    ("eval" body line 1)
+    invoked from within
+"# Compiled -- no source code available
+error "called a copy of a compiled script""
+    (procedure "::svdnd" line 1)
+    invoked from within
+"::svdnd drag $win -actions {copy} -id [list [pid] $this]"
+    (object "::.waveWindow0.work.user.waveset" method "::WaveSet::_delayedStartDND" body line 35)
+    invoked from within
+"::.waveWindow0.work.user.waveset _delayedStartDND .waveWindow0.work.user.waveset.signallist 3 72 271 1"
+    (in namespace inscope "::WaveSet" script line 1)
+    invoked from within
+"namespace inscope ::WaveSet {::.waveWindow0.work.user.waveset _delayedStartDND .waveWindow0.work.user.waveset.signallist 3 72 271 1}"
+    ("after" script)
+ 
+*** Message Type: info ***
+When: Thu Oct 23 02:10:31 AM PDT 2025
+Exit NC-Sim: user
+      Design: work.tb
+   Languages: verilog
+   Simulator: NC-Sim
+     Version: TOOL:    ncsim(64)       15.20-s079
+        User: chuyenhs
+        Host: viterbi-scf2.usc.edu
+Time Started: Thu Oct 23 02:10:13 AM PDT 2025
+  Process ID: 310431
+   Directory: /home/viterbi/05/chuyenhs/ee577b/final_phase1/NIC
+     Command: ncsim -STATUS -NOCOPYRIGHT -MESSAGES -NCFATAL INVSUP -NOWARN DLBRLK -TCL -NOLOG -NOKEY -INPUT ./scripts/runscript.tcl -GUI work.tb -tcl -update
+
+ 
+*** Message Type: info ***
+When: Thu Oct 23 02:10:32 AM PDT 2025
+SimVision Exit.
+ 
