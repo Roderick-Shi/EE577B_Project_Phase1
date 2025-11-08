@@ -2,24 +2,33 @@
 
 module tb_PE;
 
+  // ========== Logger ==========
+  integer LOG_FD;
+  initial begin
+    LOG_FD = $fopen("PE_Test_Results.txt", "w");
+    if (!LOG_FD) $display("** ERROR ** cannot open PE_Test_Results.txt");
+    $fdisplay(LOG_FD, "==== PE Test Results ====");
+    $fdisplay(LOG_FD, "Time unit = %0t (timescale 1ns/1ps)\n", $time);
+  end
+
   // -----------------------------
-  // DUT ports
+  // DUT ports (ascending ranges)
   // -----------------------------
   reg         clk, reset;
-  reg  [31:0] Instr_from_imem;
-  wire [31:0] PC;
+  reg  [0:31] Instr_from_imem;
+  wire [0:31] PC;
 
   wire        memEn_to_dmem, memWrEn_to_dmem;
-  wire [31:0] memAddr_to_dmem;
-  wire [63:0] data_to_dmem;
-  reg  [63:0] data_from_dmem;
+  wire [0:31] memAddr_to_dmem;
+  wire [0:63] data_to_dmem;
+  reg  [0:63] data_from_dmem;
 
-  wire [1:0]  addr_nic;
-  wire [63:0] din_to_nic;
-  reg  [63:0] dout_from_nic;
+  wire [0:1]  addr_nic;
+  wire [0:63] din_to_nic;
+  reg  [0:63] dout_from_nic;
   wire        nicEn, nicWrEn;
 
-  // Instantiate DUT (port list依你的TOP.v，如名稱不同請同步修改)
+  // Instantiate DUT
   TOP dut(
     .clk(clk), .reset(reset),
     .Instr_from_imem(Instr_from_imem),
@@ -43,42 +52,42 @@ module tb_PE;
   // -----------------------------
   // Test vectors
   // -----------------------------
-  localparam [63:0] A_INIT = 64'h1122334455667788;
-  localparam [63:0] B_INIT = 64'hF0F00F0FA5A55A5A;
-  localparam [63:0] C_INIT = 64'h0000000000000009; // 避免除以零
-  localparam [63:0] D_INIT = 64'h0123456789ABCDEF;
+  localparam [0:63] A_INIT = 64'h1122334455667788;
+  localparam [0:63] B_INIT = 64'hF0F00F0FA5A55A5A;
+  localparam [0:63] C_INIT = 64'h0000000000000009; // avoid div0
+  localparam [0:63] D_INIT = 64'h0123456789ABCDEF;
 
   // -----------------------------
-  // Integer square-root helpers (Verilog-2001 版本)
+  // Integer square-root helpers
   // -----------------------------
-  function [7:0]  isqrt8;  input [7:0]  x; integer k; reg [7:0]  y; begin
+  function [0:7]  isqrt8;  input [0:7]  x; integer k; reg [0:7]  y; begin
     y = 0; for (k=7; k>=0; k=k-1)  if ((y+(1<<k))*(y+(1<<k)) <= x)  y = y + (1<<k);
     isqrt8 = y;
   end endfunction
 
-  function [15:0] isqrt16; input [15:0] x; integer k; reg [15:0] y; begin
+  function [0:15] isqrt16; input [0:15] x; integer k; reg [0:15] y; begin
     y = 0; for (k=15; k>=0; k=k-1) if ((y+(1<<k))*(y+(1<<k)) <= x)  y = y + (1<<k);
     isqrt16 = y;
   end endfunction
 
-  function [15:0] isqrt32; input [31:0] x; integer k; reg [15:0] y; begin
+  function [0:15] isqrt32; input [0:31] x; integer k; reg [0:15] y; begin
     y = 0; for (k=15; k>=0; k=k-1) if ((y+(1<<k))*(y+(1<<k)) <= x)  y = y + (1<<k);
     isqrt32 = y;
   end endfunction
 
-  function [31:0] isqrt64; input [63:0] x; integer k; reg [31:0] y; begin
+  function [0:31] isqrt64; input [0:63] x; integer k; reg [0:31] y; begin
     y = 0; for (k=31; k>=0; k=k-1) if ((y+(1<<k))*(y+(1<<k)) <= x)  y = y + (1<<k);
     isqrt64 = y;
   end endfunction
 
   // -----------------------------
-  // Golden model for ALU (依據 func/ww 分lane計算)
+  // Golden model for ALU
   // -----------------------------
-  function [63:0] model_alu;
-    input [5:0]  func;
-    input [1:0]  ww;
-    input [63:0] A, B;
-    reg   [63:0] R;
+  function [0:63] model_alu;
+    input [0:5]  func;
+    input [0:1]  ww;
+    input [0:63] A, B;
+    reg   [0:63] R;
   begin
     R = 64'd0;
     case (func)
@@ -91,258 +100,300 @@ module tb_PE;
       6'b000110: begin              // VADD
         if (ww==2'b11) R = A + B;
         else if (ww==2'b10) begin
-          R[31:0]  = A[31:0]  + B[31:0];
-          R[63:32] = A[63:32] + B[63:32];
+          R[0:31]  = A[0:31]  + B[0:31];
+          R[32:63] = A[32:63] + B[32:63];
         end
         else if (ww==2'b01) begin
-          R[15:0]   = A[15:0]   + B[15:0];
-          R[31:16]  = A[31:16]  + B[31:16];
-          R[47:32]  = A[47:32]  + B[47:32];
-          R[63:48]  = A[63:48]  + B[63:48];
+          R[0:15]   = A[0:15]   + B[0:15];
+          R[16:31]  = A[16:31]  + B[16:31];
+          R[32:47]  = A[32:47]  + B[32:47];
+          R[48:63]  = A[48:63]  + B[48:63];
         end
         else begin
-          R[7:0]    = A[7:0]    + B[7:0];
-          R[15:8]   = A[15:8]   + B[15:8];
-          R[23:16]  = A[23:16]  + B[23:16];
-          R[31:24]  = A[31:24]  + B[31:24];
-          R[39:32]  = A[39:32]  + B[39:32];
-          R[47:40]  = A[47:40]  + B[47:40];
-          R[55:48]  = A[55:48]  + B[55:48];
-          R[63:56]  = A[63:56]  + B[63:56];
+          R[0:7]    = A[0:7]    + B[0:7];
+          R[8:15]   = A[8:15]   + B[8:15];
+          R[16:23]  = A[16:23]  + B[16:23];
+          R[24:31]  = A[24:31]  + B[24:31];
+          R[32:39]  = A[32:39]  + B[32:39];
+          R[40:47]  = A[40:47]  + B[40:47];
+          R[48:55]  = A[48:55]  + B[48:55];
+          R[56:63]  = A[56:63]  + B[56:63];
         end
       end
 
       6'b000111: begin              // VSUB
         if (ww==2'b11) R = A - B;
         else if (ww==2'b10) begin
-          R[31:0]  = A[31:0]  - B[31:0];
-          R[63:32] = A[63:32] - B[63:32];
+          R[0:31]  = A[0:31]  - B[0:31];
+          R[32:63] = A[32:63] - B[32:63];
         end
         else if (ww==2'b01) begin
-          R[15:0]   = A[15:0]   - B[15:0];
-          R[31:16]  = A[31:16]  - B[31:16];
-          R[47:32]  = A[47:32]  - B[47:32];
-          R[63:48]  = A[63:48]  - B[63:48];
+          R[0:15]   = A[0:15]   - B[0:15];
+          R[16:31]  = A[16:31]  - B[16:31];
+          R[32:47]  = A[32:47]  - B[32:47];
+          R[48:63]  = A[48:63]  - B[48:63];
         end
         else begin
-          R[7:0]    = A[7:0]    - B[7:0];
-          R[15:8]   = A[15:8]   - B[15:8];
-          R[23:16]  = A[23:16]  - B[23:16];
-          R[31:24]  = A[31:24]  - B[31:24];
-          R[39:32]  = A[39:32]  - B[39:32];
-          R[47:40]  = A[47:40]  - B[47:40];
-          R[55:48]  = A[55:48]  - B[55:48];
-          R[63:56]  = A[63:56]  - B[63:56];
+          R[0:7]    = A[0:7]    - B[0:7];
+          R[8:15]   = A[8:15]   - B[8:15];
+          R[16:23]  = A[16:23]  - B[16:23];
+          R[24:31]  = A[24:31]  - B[24:31];
+          R[32:39]  = A[32:39]  - B[32:39];
+          R[40:47]  = A[40:47]  - B[40:47];
+          R[48:55]  = A[48:55]  - B[48:55];
+          R[56:63]  = A[56:63]  - B[56:63];
         end
       end
 
-      6'b001000: begin              // VMULEU (even)
+      // VMULEU (even lanes)
+      6'b001000: begin
         R = 64'd0;
-        if (ww==2'b10) R = { (A[31:0]*B[31:0]) , 32'd0 };
-        else if (ww==2'b01) begin
-          R[31:0]  = A[15:0]*B[15:0];
-          R[63:32] = A[47:32]*B[47:32];
-        end
-        else if (ww==2'b00) begin
-          R[15:0]  = A[7:0]  * B[7:0];
-          R[31:16] = A[23:16]* B[23:16];
-          R[47:32] = A[39:32]* B[39:32];
-          R[63:48] = A[55:48]* B[55:48];
+        if (ww==2'b10) begin
+          R[0:63] = A[0:31] * B[0:31];
+        end else if (ww==2'b01) begin
+          R[0:31]  = A[0:15]  * B[0:15];
+          R[32:63] = A[32:47] * B[32:47];
+        end else begin
+          R[0:15]   = A[0:7]   * B[0:7];
+          R[16:31]  = A[16:23] * B[16:23];
+          R[32:47]  = A[32:39] * B[32:39];
+          R[48:63]  = A[48:55] * B[48:55];
         end
       end
 
-      6'b001001: begin              // VMULOU (odd)
+      // VMULOU (odd lanes)
+      6'b001001: begin
         R = 64'd0;
-        if (ww==2'b10) R = { (A[63:32]*B[63:32]) , 32'd0 };
-        else if (ww==2'b01) begin
-          R[31:0]  = A[31:16]*B[31:16];
-          R[63:32] = A[63:48]*B[63:48];
-        end
-        else if (ww==2'b00) begin
-          R[15:0]  = A[15:8] * B[15:8];
-          R[31:16] = A[31:24]* B[31:24];
-          R[47:32] = A[47:40]* B[47:40];
-          R[63:48] = A[63:56]* B[63:56];
+        if (ww==2'b10) begin
+          R[0:63] = A[32:63] * B[32:63];
+        end else if (ww==2'b01) begin
+          R[0:31]  = A[16:31] * B[16:31];
+          R[32:63] = A[48:63] * B[48:63];
+        end else begin
+          R[0:15]   = A[8:15]  * B[8:15];
+          R[16:31]  = A[24:31] * B[24:31];
+          R[32:47]  = A[40:47] * B[40:47];
+          R[48:63]  = A[56:63] * B[56:63];
         end
       end
 
-      6'b001010: begin              // VSLL
-        if (ww==2'b11) R = A << B[63:58];
+      // VSLL
+      6'b001010: begin
+        if (ww==2'b11) R = A << B[58:63];
         else if (ww==2'b10) begin
-          R[31:0]  = A[31:0]  << B[31:27];
-          R[63:32] = A[63:32] << B[63:59];
+          R[0:31]  = A[0:31]  << B[27:31];
+          R[32:63] = A[32:63] << B[59:63];
         end
         else if (ww==2'b01) begin
-          R[15:0]   = A[15:0]   << B[15:12];
-          R[31:16]  = A[31:16]  << B[31:28];
-          R[47:32]  = A[47:32]  << B[47:44];
-          R[63:48]  = A[63:48]  << B[63:60];
+          R[0:15]   = A[0:15]   << B[12:15];
+          R[16:31]  = A[16:31]  << B[28:31];
+          R[32:47]  = A[32:47]  << B[44:47];
+          R[48:63]  = A[48:63]  << B[60:63];
         end
         else begin
-          R[7:0]    = A[7:0]    << B[7:5];
-          R[15:8]   = A[15:8]   << B[15:13];
-          R[23:16]  = A[23:16]  << B[23:21];
-          R[31:24]  = A[31:24]  << B[31:29];
-          R[39:32]  = A[39:32]  << B[39:37];
-          R[47:40]  = A[47:40]  << B[47:45];
-          R[55:48]  = A[55:48]  << B[55:53];
-          R[63:56]  = A[63:56]  << B[63:61];
+          R[0:7]    = A[0:7]    << B[5:7];
+          R[8:15]   = A[8:15]   << B[13:15];
+          R[16:23]  = A[16:23]  << B[21:23];
+          R[24:31]  = A[24:31]  << B[29:31];
+          R[32:39]  = A[32:39]  << B[37:39];
+          R[40:47]  = A[40:47]  << B[45:47];
+          R[48:55]  = A[48:55]  << B[53:55];
+          R[56:63]  = A[56:63]  << B[61:63];
         end
       end
 
-      6'b001011: begin              // VSRL
-        if (ww==2'b11) R = A >> B[63:58];
+      // VSRL
+      6'b001011: begin
+        if (ww==2'b11) R = A >> B[58:63];
         else if (ww==2'b10) begin
-          R[31:0]  = A[31:0]  >> B[31:27];
-          R[63:32] = A[63:32] >> B[63:59];
+          R[0:31]  = A[0:31]  >> B[27:31];
+          R[32:63] = A[32:63] >> B[59:63];
         end
         else if (ww==2'b01) begin
-          R[15:0]   = A[15:0]   >> B[15:12];
-          R[31:16]  = A[31:16]  >> B[31:28];
-          R[47:32]  = A[47:32]  >> B[47:44];
-          R[63:48]  = A[63:48]  >> B[63:60];
+          R[0:15]   = A[0:15]   >> B[12:15];
+          R[16:31]  = A[16:31]  >> B[28:31];
+          R[32:47]  = A[32:47]  >> B[44:47];
+          R[48:63]  = A[48:63]  >> B[60:63];
         end
         else begin
-          R[7:0]    = A[7:0]    >> B[7:5];
-          R[15:8]   = A[15:8]   >> B[15:13];
-          R[23:16]  = A[23:16]  >> B[23:21];
-          R[31:24]  = A[31:24]  >> B[31:29];
-          R[39:32]  = A[39:32]  >> B[39:37];
-          R[47:40]  = A[47:40]  >> B[47:45];
-          R[55:48]  = A[55:48]  >> B[55:53];
-          R[63:56]  = A[63:56]  >> B[63:61];
+          R[0:7]    = A[0:7]    >> B[5:7];
+          R[8:15]   = A[8:15]   >> B[13:15];
+          R[16:23]  = A[16:23]  >> B[21:23];
+          R[24:31]  = A[24:31]  >> B[29:31];
+          R[32:39]  = A[32:39]  >> B[37:39];
+          R[40:47]  = A[40:47]  >> B[45:47];
+          R[48:55]  = A[48:55]  >> B[53:55];
+          R[56:63]  = A[56:63]  >> B[61:63];
         end
       end
 
-      6'b001100: begin              // VSRA
-        if (ww==2'b11) R = $signed(A) >>> B[63:58];
+      // VSRA
+      6'b001100: begin
+        if (ww==2'b11) R = $signed(A) >>> B[58:63];
         else if (ww==2'b10) begin
-          R[31:0]  = $signed(A[31:0])  >>> B[31:27];
-          R[63:32] = $signed(A[63:32]) >>> B[63:59];
+          R[0:31]  = $signed(A[0:31])  >>> B[27:31];
+          R[32:63] = $signed(A[32:63]) >>> B[59:63];
         end
         else if (ww==2'b01) begin
-          R[15:0]   = $signed(A[15:0])   >>> B[15:12];
-          R[31:16]  = $signed(A[31:16])  >>> B[31:28];
-          R[47:32]  = $signed(A[47:32])  >>> B[47:44];
-          R[63:48]  = $signed(A[63:48])  >>> B[63:60];
+          R[0:15]   = $signed(A[0:15])   >>> B[12:15];
+          R[16:31]  = $signed(A[16:31])  >>> B[28:31];
+          R[32:47]  = $signed(A[32:47])  >>> B[44:47];
+          R[48:63]  = $signed(A[48:63])  >>> B[60:63];
         end
         else begin
-          R[7:0]    = $signed(A[7:0])    >>> B[7:5];
-          R[15:8]   = $signed(A[15:8])   >>> B[15:13];
-          R[23:16]  = $signed(A[23:16])  >>> B[23:21];
-          R[31:24]  = $signed(A[31:24])  >>> B[31:29];
-          R[39:32]  = $signed(A[39:32])  >>> B[39:37];
-          R[47:40]  = $signed(A[47:40])  >>> B[47:45];
-          R[55:48]  = $signed(A[55:48])  >>> B[55:53];
-          R[63:56]  = $signed(A[63:56])  >>> B[63:61];
+          R[0:7]    = $signed(A[0:7])    >>> B[5:7];
+          R[8:15]   = $signed(A[8:15])   >>> B[13:15];
+          R[16:23]  = $signed(A[16:23])  >>> B[21:23];
+          R[24:31]  = $signed(A[24:31])  >>> B[29:31];
+          R[32:39]  = $signed(A[32:39])  >>> B[37:39];
+          R[40:47]  = $signed(A[40:47])  >>> B[45:47];
+          R[48:55]  = $signed(A[48:55])  >>> B[53:55];
+          R[56:63]  = $signed(A[56:63])  >>> B[61:63];
         end
       end
 
-      6'b001101: begin              // VRTTH
-        if (ww==2'b11)        R = {A[31:0],A[63:32]};
-        else if (ww==2'b10)   begin R[31:0]={A[15:0],A[31:16]}; R[63:32]={A[47:32],A[63:48]}; end
-        else if (ww==2'b01)   begin
-          R[15:0]={A[7:0],A[15:8]};     R[31:16]={A[23:16],A[31:24]};
-          R[47:32]={A[39:32],A[47:40]}; R[63:48]={A[55:48],A[63:56]};
-        end
-        else begin
-          R[7:0] ={A[3:0],A[7:4]};   R[15:8] ={A[11:8],A[15:12]};
-          R[23:16]={A[19:16],A[23:20]}; R[31:24]={A[27:24],A[31:28]};
-          R[39:32]={A[35:32],A[39:36]}; R[47:40]={A[43:40],A[47:44]};
-          R[55:48]={A[51:48],A[55:52]}; R[63:56]={A[59:56],A[63:60]};
+      // VRTTH
+      6'b001101: begin
+        if (ww==2'b11) begin
+          R[0:31]  = A[32:63];
+          R[32:63] = A[0:31];
+        end else if (ww==2'b10) begin
+          R[0:15]  = A[16:31];  R[16:31] = A[0:15];
+          R[32:47] = A[48:63];  R[48:63] = A[32:47];
+        end else if (ww==2'b01) begin
+          R[0:7]   = A[8:15];   R[8:15]  = A[0:7];
+          R[16:23] = A[24:31];  R[24:31] = A[16:23];
+          R[32:39] = A[40:47];  R[40:47] = A[32:39];
+          R[48:55] = A[56:63];  R[56:63] = A[48:55];
+        end else begin
+          R[0:3]   = A[4:7];    R[4:7]   = A[0:3];
+          R[8:11]  = A[12:15];  R[12:15] = A[8:11];
+          R[16:19] = A[20:23];  R[20:23] = A[16:19];
+          R[24:27] = A[28:31];  R[28:31] = A[24:27];
+          R[32:35] = A[36:39];  R[36:39] = A[32:35];
+          R[40:43] = A[44:47];  R[44:47] = A[40:43];
+          R[48:51] = A[52:55];  R[52:55] = A[48:51];
+          R[56:59] = A[60:63];  R[60:63] = A[56:59];
         end
       end
 
-      6'b001110: begin              // VDIV (unsigned)
+      // VDIV
+      6'b001110: begin
         if (ww==2'b11) R = (B!=0) ? (A/B) : 64'd0;
         else if (ww==2'b10) begin
-          R[31:0]  = (B[31:0]  != 0) ? (A[31:0]  / B[31:0])  : 32'd0;
-          R[63:32] = (B[63:32] != 0) ? (A[63:32] / B[63:32]) : 32'd0;
+          R[0:31]  = (B[0:31]  != 0) ? (A[0:31]  / B[0:31])  : 32'd0;
+          R[32:63] = (B[32:63] != 0) ? (A[32:63] / B[32:63]) : 32'd0;
         end
         else if (ww==2'b01) begin
-          R[15:0]   = (B[15:0]   != 0) ? (A[15:0]   / B[15:0])   : 16'd0;
-          R[31:16]  = (B[31:16]  != 0) ? (A[31:16]  / B[31:16])  : 16'd0;
-          R[47:32]  = (B[47:32]  != 0) ? (A[47:32]  / B[47:32])  : 16'd0;
-          R[63:48]  = (B[63:48]  != 0) ? (A[63:48]  / B[63:48])  : 16'd0;
+          R[0:15]   = (B[0:15]   != 0) ? (A[0:15]   / B[0:15])   : 16'd0;
+          R[16:31]  = (B[16:31]  != 0) ? (A[16:31]  / B[16:31])  : 16'd0;
+          R[32:47]  = (B[32:47]  != 0) ? (A[32:47]  / B[32:47])  : 16'd0;
+          R[48:63]  = (B[48:63]  != 0) ? (A[48:63]  / B[48:63])  : 16'd0;
         end
         else begin
-          R[7:0]    = (B[7:0]    != 0) ? (A[7:0]    / B[7:0])    : 8'd0;
-          R[15:8]   = (B[15:8]   != 0) ? (A[15:8]   / B[15:8])   : 8'd0;
-          R[23:16]  = (B[23:16]  != 0) ? (A[23:16]  / B[23:16])  : 8'd0;
-          R[31:24]  = (B[31:24]  != 0) ? (A[31:24]  / B[31:24])  : 8'd0;
-          R[39:32]  = (B[39:32]  != 0) ? (A[39:32]  / B[39:32])  : 8'd0;
-          R[47:40]  = (B[47:40]  != 0) ? (A[47:40]  / B[47:40])  : 8'd0;
-          R[55:48]  = (B[55:48]  != 0) ? (A[55:48]  / B[55:48])  : 8'd0;
-          R[63:56]  = (B[63:56]  != 0) ? (A[63:56]  / B[63:56])  : 8'd0;
+          R[0:7]    = (B[0:7]    != 0) ? (A[0:7]    / B[0:7])    : 8'd0;
+          R[8:15]   = (B[8:15]   != 0) ? (A[8:15]   / B[8:15])   : 8'd0;
+          R[16:23]  = (B[16:23]  != 0) ? (A[16:23]  / B[16:23])  : 8'd0;
+          R[24:31]  = (B[24:31]  != 0) ? (A[24:31]  / B[24:31])  : 8'd0;
+          R[32:39]  = (B[32:39]  != 0) ? (A[32:39]  / B[32:39])  : 8'd0;
+          R[40:47]  = (B[40:47]  != 0) ? (A[40:47]  / B[40:47])  : 8'd0;
+          R[48:55]  = (B[48:55]  != 0) ? (A[48:55]  / B[48:55])  : 8'd0;
+          R[56:63]  = (B[56:63]  != 0) ? (A[56:63]  / B[56:63])  : 8'd0;
         end
       end
 
-      6'b001111: begin              // VMOD (unsigned)
+      // VMOD
+      6'b001111: begin
         if (ww==2'b11) R = (B!=0) ? (A%B) : 64'd0;
         else if (ww==2'b10) begin
-          R[31:0]  = (B[31:0]  != 0) ? (A[31:0]  % B[31:0])  : 32'd0;
-          R[63:32] = (B[63:32] != 0) ? (A[63:32] % B[63:32]) : 32'd0;
+          R[0:31]  = (B[0:31]  != 0) ? (A[0:31]  % B[0:31])  : 32'd0;
+          R[32:63] = (B[32:63] != 0) ? (A[32:63] % B[32:63]) : 32'd0;
         end
         else if (ww==2'b01) begin
-          R[15:0]   = (B[15:0]   != 0) ? (A[15:0]   % B[15:0])   : 16'd0;
-          R[31:16]  = (B[31:16]  != 0) ? (A[31:16]  % B[31:16])  : 16'd0;
-          R[47:32]  = (B[47:32]  != 0) ? (A[47:32]  % B[47:32])  : 16'd0;
-          R[63:48]  = (B[63:48]  != 0) ? (A[63:48]  % B[63:48])  : 16'd0;
+          R[0:15]   = (B[0:15]   != 0) ? (A[0:15]   % B[0:15])   : 16'd0;
+          R[16:31]  = (B[16:31]  != 0) ? (A[16:31]  % B[16:31])  : 16'd0;
+          R[32:47]  = (B[32:47]  != 0) ? (A[32:47]  % B[32:47])  : 16'd0;
+          R[48:63]  = (B[48:63]  != 0) ? (A[48:63]  % B[48:63])  : 16'd0;
         end
         else begin
-          R[7:0]    = (B[7:0]    != 0) ? (A[7:0]    % B[7:0])    : 8'd0;
-          R[15:8]   = (B[15:8]   != 0) ? (A[15:8]   % B[15:8])   : 8'd0;
-          R[23:16]  = (B[23:16]  != 0) ? (A[23:16]  % B[23:16])  : 8'd0;
-          R[31:24]  = (B[31:24]  != 0) ? (A[31:24]  % B[31:24])  : 8'd0;
-          R[39:32]  = (B[39:32]  != 0) ? (A[39:32]  % B[39:32])  : 8'd0;
-          R[47:40]  = (B[47:40]  != 0) ? (A[47:40]  % B[47:40])  : 8'd0;
-          R[55:48]  = (B[55:48]  != 0) ? (A[55:48]  % B[55:48])  : 8'd0;
-          R[63:56]  = (B[63:56]  != 0) ? (A[63:56]  % B[63:56])  : 8'd0;
+          R[0:7]    = (B[0:7]    != 0) ? (A[0:7]    % B[0:7])    : 8'd0;
+          R[8:15]   = (B[8:15]   != 0) ? (A[8:15]   % B[8:15])   : 8'd0;
+          R[16:23]  = (B[16:23]  != 0) ? (A[16:23]  % B[16:23])  : 8'd0;
+          R[24:31]  = (B[24:31]  != 0) ? (A[24:31]  % B[24:31])  : 8'd0;
+          R[32:39]  = (B[32:39]  != 0) ? (A[32:39]  % B[32:39])  : 8'd0;
+          R[40:47]  = (B[40:47]  != 0) ? (A[40:47]  % B[40:47])  : 8'd0;
+          R[48:55]  = (B[48:55]  != 0) ? (A[48:55]  % B[48:55])  : 8'd0;
+          R[56:63]  = (B[56:63]  != 0) ? (A[56:63]  % B[56:63])  : 8'd0;
         end
       end
 
-      6'b010000: begin              // VSQEU (even)
+      // VSQEU
+      6'b010000: begin
         R = 64'd0;
-        if (ww==2'b10) R = { (A[31:0]*A[31:0]), 32'd0 };
-        else if (ww==2'b01) begin
-          R[31:0]  = A[15:0]*A[15:0];
-          R[63:32] = A[47:32]*A[47:32];
+        if (ww == 2'b00) begin
+          R[0:15]   = A[0:7]   * A[0:7];
+          R[16:31]  = A[16:23] * A[16:23];
+          R[32:47]  = A[32:39] * A[32:39];
+          R[48:63]  = A[48:55] * A[48:55];
         end
-        else if (ww==2'b00) begin
-          R[15:0]  = A[7:0]*A[7:0];
-          R[31:16] = A[23:16]*A[23:16];
-          R[47:32] = A[39:32]*A[39:32];
-          R[63:48] = A[55:48]*A[55:48];
+        else if (ww == 2'b01) begin
+          R[0:31]   = A[0:15]  * A[0:15];
+          R[32:63]  = A[32:47] * A[32:47];
         end
-      end
-
-      6'b010001: begin              // VSQOU (odd)
-        R = 64'd0;
-        if (ww==2'b10) R = { (A[63:32]*A[63:32]), 32'd0 };
-        else if (ww==2'b01) begin
-          R[31:0]  = A[31:16]*A[31:16];
-          R[63:32] = A[63:48]*A[63:48];
-        end
-        else if (ww==2'b00) begin
-          R[15:0]  = A[15:8]*A[15:8];
-          R[31:16] = A[31:24]*A[31:24];
-          R[47:32] = A[47:40]*A[47:40];
-          R[63:48] = A[63:56]*A[63:56];
-        end
-      end
-
-      6'b010010: begin              // VSQRT (zero-pad)
-        if (ww==2'b11)         R = {32'd0, isqrt64(A)};
-        else if (ww==2'b10)    begin R[31:0]={16'd0,isqrt32(A[31:0])};   R[63:32]={16'd0,isqrt32(A[63:32])}; end
-        else if (ww==2'b01)    begin
-          R[15:0] ={8'd0,isqrt16(A[15:0])};   R[31:16]={8'd0,isqrt16(A[31:16])};
-          R[47:32]={8'd0,isqrt16(A[47:32])};  R[63:48]={8'd0,isqrt16(A[63:48])};
+        else if (ww == 2'b10) begin
+          R         = A[0:31]  * A[0:31];
         end
         else begin
-          R[7:0]  ={4'd0,isqrt8(A[7:0])};    R[15:8] ={4'd0,isqrt8(A[15:8])};
-          R[23:16]={4'd0,isqrt8(A[23:16])};  R[31:24]={4'd0,isqrt8(A[31:24])};
-          R[39:32]={4'd0,isqrt8(A[39:32])};  R[47:40]={4'd0,isqrt8(A[47:40])};
-          R[55:48]={4'd0,isqrt8(A[55:48])};  R[63:56]={4'd0,isqrt8(A[63:56])};
+          R         = 64'h0;
+        end
+      end
+
+      // VSQOU
+      6'b010001: begin
+        R = 64'd0;
+        if (ww == 2'b00) begin
+          R[0:15]   = A[8:15]  * A[8:15];
+          R[16:31]  = A[24:31] * A[24:31];
+          R[32:47]  = A[40:47] * A[40:47];
+          R[48:63]  = A[56:63] * A[56:63];
+        end
+        else if (ww == 2'b01) begin
+          R[0:31]   = A[16:31] * A[16:31];
+          R[32:63]  = A[48:63] * A[48:63];
+        end
+        else if (ww == 2'b10) begin
+          R         = A[32:63] * A[32:63];
+        end
+        else begin
+          R         = 64'h0;
+        end
+      end
+
+      // VSQRT（zero-pad）
+      6'b010010: begin
+        if (ww==2'b11) begin
+          R[0:31]   = 32'd0;
+          R[32:63]  = isqrt64(A);
+        end
+        else if (ww==2'b10) begin
+          R[0:15]   = 16'd0;             R[16:31] = isqrt32(A[0:31]);
+          R[32:47]  = 16'd0;             R[48:63] = isqrt32(A[32:63]);
+        end
+        else if (ww==2'b01) begin
+          R[0:7]    = 8'd0;              R[8:15]  = isqrt16(A[0:15]);
+          R[16:23]  = 8'd0;              R[24:31] = isqrt16(A[16:31]);
+          R[32:39]  = 8'd0;              R[40:47] = isqrt16(A[32:47]);
+          R[48:55]  = 8'd0;              R[56:63] = isqrt16(A[48:63]);
+        end
+        else begin
+          R[0:3]    = 4'd0;              R[4:7]   = isqrt8(A[0:7]);
+          R[8:11]   = 4'd0;              R[12:15] = isqrt8(A[8:15]);
+          R[16:19]  = 4'd0;              R[20:23] = isqrt8(A[16:23]);
+          R[24:27]  = 4'd0;              R[28:31] = isqrt8(A[24:31]);
+          R[32:35]  = 4'd0;              R[36:39] = isqrt8(A[32:39]);
+          R[40:43]  = 4'd0;              R[44:47] = isqrt8(A[40:47]);
+          R[48:51]  = 4'd0;              R[52:55] = isqrt8(A[48:55]);
+          R[56:59]  = 4'd0;              R[60:63] = isqrt8(A[56:63]);
         end
       end
 
@@ -353,22 +404,16 @@ module tb_PE;
   endfunction
 
   // -----------------------------
-  // 驅動/比對：force 進 EX 階段匯流排，取 ALU 與 WB
-  // 注意：以下位元欄位位置需依你的設計確認！
-  //  - [0:5]   opcode (ALU = 6'b101010)
-  //  - [24:25] ww
-  //  - [26:31] func
-  //  - [32:95]  dataA
-  //  - [96:159] dataB
+  // 驅動/比對
   // -----------------------------
   task drive_and_check;
-    input [5:0]  func;
-    input [1:0]  ww;
-    input [63:0] A;
-    input [63:0] B;
-    input [127:0] tag; // 文字標籤用bytes
+    input [0:5]   func;
+    input [0:1]   ww;
+    input [0:63]  A;
+    input [0:63]  B;
+    input [0:127] tag;
     reg   [0:159] v;
-    reg   [63:0] exp, got1, got2;
+    reg   [0:63]  exp, got1, got2;
     integer fail;
   begin
     exp = model_alu(func, ww, A, B);
@@ -382,12 +427,11 @@ module tb_PE;
 
     force dut.stage2_ID_EXMEM_out = v;
 
-    #1; // 組合穩定
+    #1; // comb settle
     got1 = dut.ALU_data_out;
 
     @(posedge clk);
     #1;
-    // <<< 若你的 WB 匯流排資料欄位非 [9:72]，請改這裡 >>>
     got2 = dut.stage3_EXMEM_WB_out[9:72];
 
     release dut.stage2_ID_EXMEM_out;
@@ -396,20 +440,32 @@ module tb_PE;
     if (got1 !== exp) begin
       $display("[FAIL-COMB] func=%0d ww=%0d tag=%0s A=%h B=%h exp=%h got=%h (ALU_data_out)",
                func, ww, tag, A, B, exp, got1);
+      $fdisplay(LOG_FD, "[FAIL-COMB] func=%0d ww=%0d tag=%0s A=%h B=%h exp=%h got=%h (ALU_data_out)",
+               func, ww, tag, A, B, exp, got1);
       fail = 1;
     end
     if (got2 !== exp) begin
       $display("[FAIL-WB]   func=%0d ww=%0d tag=%0s A=%h B=%h exp=%h got=%h (stage3 data)",
                func, ww, tag, A, B, exp, got2);
+      $fdisplay(LOG_FD, "[FAIL-WB]   func=%0d ww=%0d tag=%0s A=%h B=%h exp=%h got=%h (stage3 data)",
+               func, ww, tag, A, B, exp, got2);
       fail = 1;
     end
-    if (!fail) $display("[PASS] func=%0d ww=%0d tag=%0s -> %h", func, ww, tag, exp);
-    if (fail)  begin $display("** TEST FAILED **"); $finish; end
+    if (!fail) begin
+      $display("[PASS] func=%0d ww=%0d tag=%0s -> %h", func, ww, tag, exp);
+      $fdisplay(LOG_FD, "[PASS] func=%0d ww=%0d tag=%0s -> %h", func, ww, tag, exp);
+    end
+    if (fail)  begin
+      $display("** TEST FAILED **");
+      $fdisplay(LOG_FD, "** TEST FAILED **");
+      $fclose(LOG_FD);
+      $finish;
+    end
   end
   endtask
 
   // -----------------------------
-  // Test plan: cover ALL function codes
+  // Test plan
   // -----------------------------
   initial begin
     reset = 1'b1;
@@ -451,8 +507,8 @@ module tb_PE;
 
     // 除與餘（避免除以0）
     drive_and_check(6'b001110, 2'b11, D_INIT, C_INIT, "VDIV 64");
-    drive_and_check(6'b001110, 2'b10, D_INIT, {C_INIT[31:0], C_INIT[31:0]}, "VDIV 32x2");
-    drive_and_check(6'b001111, 2'b01, D_INIT, {4{C_INIT[15:0]}}, "VMOD 16x4");
+    drive_and_check(6'b001110, 2'b10, D_INIT, {C_INIT[32:63], C_INIT[32:63]}, "VDIV 32x2");
+    drive_and_check(6'b001111, 2'b01, D_INIT, {4{C_INIT[48:63]}}, "VMOD 16x4");
 
     // 平方（even/odd）
     drive_and_check(6'b010000, 2'b10, D_INIT, 64'd0, "VSQEU 32x2");
@@ -465,11 +521,14 @@ module tb_PE;
 
     // 開根號
     drive_and_check(6'b010010, 2'b11, C_INIT, 64'd0, "VSQRT 64");
-    drive_and_check(6'b010010, 2'b10, {C_INIT[31:0],C_INIT[31:0]}, 64'd0, "VSQRT 32x2");
-    drive_and_check(6'b010010, 2'b01, {4{C_INIT[15:0]}}, 64'd0, "VSQRT 16x4");
-    drive_and_check(6'b010010, 2'b00, {8{C_INIT[7:0]}}, 64'd0, "VSQRT 8x8");
+    drive_and_check(6'b010010, 2'b10, {C_INIT[32:63], C_INIT[32:63]}, 64'd0, "VSQRT 32x2");
+    drive_and_check(6'b010010, 2'b01, {4{C_INIT[48:63]}}, 64'd0, "VSQRT 16x4");
+    drive_and_check(6'b010010, 2'b00, {8{C_INIT[56:63]}},  64'd0, "VSQRT 8x8");
 
     $display("=== ALL ALU FUNCTION CODES EXERCISED ===");
+    $fdisplay(LOG_FD, "=== ALL ALU FUNCTION CODES EXERCISED ===");
+
+    $fclose(LOG_FD);
     $finish;
   end
 

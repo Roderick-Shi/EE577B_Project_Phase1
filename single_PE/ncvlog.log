@@ -1,5 +1,5 @@
 ncvlog(64): 15.20-s079: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
-TOOL:	ncvlog(64)	15.20-s079: Started on Nov 07, 2025 at 14:46:56 PST
+TOOL:	ncvlog(64)	15.20-s079: Started on Nov 08, 2025 at 13:22:35 PST
 ncvlog
     -STATUS
     -MESSAGES
@@ -9,194 +9,128 @@ ncvlog
     ./tb/tb_PE.v
 
 file: ./tb/tb_PE.v
-  localparam [63:0] C_INIT = 64'h0000000000000009; // 避免除以零
-                                                      |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,48|54): non-printable character (0xc1) ignored.
-  localparam [63:0] C_INIT = 64'h0000000000000009; // 避免除以零
-                                                       |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,48|55): non-printable character (0xd7) ignored.
-  localparam [63:0] C_INIT = 64'h0000000000000009; // 避免除以零
-                                                        |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,48|56): non-printable character (0xa7) ignored.
-  localparam [63:0] C_INIT = 64'h0000000000000009; // 避免除以零
-                                                          |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,48|58): non-printable character (0xb0) ignored.
-  localparam [63:0] C_INIT = 64'h0000000000000009; // 避免除以零
-                                                           |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,48|59): non-printable character (0xa3) ignored.
-  localparam [63:0] C_INIT = 64'h0000000000000009; // 避免除以零
-                                                            |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,48|60): non-printable character (0xa5) ignored.
-  localparam [63:0] C_INIT = 64'h0000000000000009; // 避免除以零
-                                                              |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,48|62): non-printable character (0xb9) ignored.
-  // 驅動/比對：force 進 EX 階段匯流排，取 ALU 與 WB
+      // VSQRT（zero-pad）
+              |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,372|14): non-printable character (0xa1) ignored.
+  // 驅動/比對
      |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,356|5): non-printable character (0xc5) ignored.
-  // 驅動/比對：force 進 EX 階段匯流排，取 ALU 與 WB
+ncvlog: *W,NONPRT (./tb/tb_PE.v,407|5): non-printable character (0xc5) ignored.
+  // 驅動/比對
        |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,356|7): non-printable character (0xb0) ignored.
-  // 驅動/比對：force 進 EX 階段匯流排，取 ALU 與 WB
+ncvlog: *W,NONPRT (./tb/tb_PE.v,407|7): non-printable character (0xb0) ignored.
+  // 驅動/比對
         |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,356|8): non-printable character (0xca) ignored.
-  // 注意：以下位元欄位位置需依你的設計確認！
-     |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,357|5): non-printable character (0xaa) ignored.
-    input [127:0] tag; // 文字標籤用bytes
-                          |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,369|26): non-printable character (0xa4) ignored.
-    input [127:0] tag; // 文字標籤用bytes
-                           |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,369|27): non-printable character (0xe5) ignored.
-    input [127:0] tag; // 文字標籤用bytes
-                            |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,369|28): non-printable character (0xa6) ignored.
-    input [127:0] tag; // 文字標籤用bytes
-                              |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,369|30): non-printable character (0xbc) ignored.
-    input [127:0] tag; // 文字標籤用bytes
-                               |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,369|31): non-printable character (0xd0) ignored.
-    input [127:0] tag; // 文字標籤用bytes
-                                |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,369|32): non-printable character (0xc5) ignored.
-    input [127:0] tag; // 文字標籤用bytes
-                                 |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,369|33): non-printable character (0xd2) ignored.
-    input [127:0] tag; // 文字標籤用bytes
-                                  |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,369|34): non-printable character (0xa5) ignored.
-    input [127:0] tag; // 文字標籤用bytes
-                                   |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,369|35): non-printable character (0xce) ignored.
-    #1; // 組合穩定
-           |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,385|11): non-printable character (0xb2) ignored.
-    #1; // 組合穩定
-            |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,385|12): non-printable character (0xd5) ignored.
-    #1; // 組合穩定
-             |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,385|13): non-printable character (0xa6) ignored.
-    #1; // 組合穩定
-               |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,385|15): non-printable character (0xc3) ignored.
-    #1; // 組合穩定
-                |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,385|16): non-printable character (0xad) ignored.
-    #1; // 組合穩定
-                 |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,385|17): non-printable character (0xa9) ignored.
+ncvlog: *W,NONPRT (./tb/tb_PE.v,407|8): non-printable character (0xca) ignored.
     // 基本位元運算
        |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,423|7): non-printable character (0xb0) ignored.
+ncvlog: *W,NONPRT (./tb/tb_PE.v,479|7): non-printable character (0xb0) ignored.
     // 基本位元運算
         |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,423|8): non-printable character (0xf2) ignored.
+ncvlog: *W,NONPRT (./tb/tb_PE.v,479|8): non-printable character (0xf2) ignored.
     // 基本位元運算
          |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,423|9): non-printable character (0xa5) ignored.
+ncvlog: *W,NONPRT (./tb/tb_PE.v,479|9): non-printable character (0xa5) ignored.
     // 基本位元運算
           |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,423|10): non-printable character (0xbb) ignored.
+ncvlog: *W,NONPRT (./tb/tb_PE.v,479|10): non-printable character (0xbb) ignored.
     // 基本位元運算
            |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,423|11): non-printable character (0xa6) ignored.
+ncvlog: *W,NONPRT (./tb/tb_PE.v,479|11): non-printable character (0xa6) ignored.
     // 基本位元運算
             |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,423|12): non-printable character (0xec) ignored.
+ncvlog: *W,NONPRT (./tb/tb_PE.v,479|12): non-printable character (0xec) ignored.
     // 基本位元運算
              |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,423|13): non-printable character (0xa4) ignored.
+ncvlog: *W,NONPRT (./tb/tb_PE.v,479|13): non-printable character (0xa4) ignored.
     // 基本位元運算
               |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,423|14): non-printable character (0xb8) ignored.
+ncvlog: *W,NONPRT (./tb/tb_PE.v,479|14): non-printable character (0xb8) ignored.
     // 基本位元運算
                |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,423|15): non-printable character (0xb9) ignored.
+ncvlog: *W,NONPRT (./tb/tb_PE.v,479|15): non-printable character (0xb9) ignored.
     // 基本位元運算
                  |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,423|17): non-printable character (0xba) ignored.
+ncvlog: *W,NONPRT (./tb/tb_PE.v,479|17): non-printable character (0xba) ignored.
     // 基本位元運算
                   |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,423|18): non-printable character (0xe2) ignored.
+ncvlog: *W,NONPRT (./tb/tb_PE.v,479|18): non-printable character (0xe2) ignored.
     // 加減（多種 ww）
        |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,430|7): non-printable character (0xa5) ignored.
+ncvlog: *W,NONPRT (./tb/tb_PE.v,486|7): non-printable character (0xa5) ignored.
     // 乘法（even/odd）
        |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,438|7): non-printable character (0xad) ignored.
+ncvlog: *W,NONPRT (./tb/tb_PE.v,494|7): non-printable character (0xad) ignored.
     // 乘法（even/odd）
         |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,438|8): non-printable character (0xbc) ignored.
+ncvlog: *W,NONPRT (./tb/tb_PE.v,494|8): non-printable character (0xbc) ignored.
     // 乘法（even/odd）
          |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,438|9): non-printable character (0xaa) ignored.
+ncvlog: *W,NONPRT (./tb/tb_PE.v,494|9): non-printable character (0xaa) ignored.
     // 乘法（even/odd）
            |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,438|11): non-printable character (0xa1) ignored.
+ncvlog: *W,NONPRT (./tb/tb_PE.v,494|11): non-printable character (0xa1) ignored.
     // 位移與旋轉
        |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,446|7): non-printable character (0xa6) ignored.
+ncvlog: *W,NONPRT (./tb/tb_PE.v,502|7): non-printable character (0xa6) ignored.
     // 位移與旋轉
         |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,446|8): non-printable character (0xec) ignored.
+ncvlog: *W,NONPRT (./tb/tb_PE.v,502|8): non-printable character (0xec) ignored.
     // 位移與旋轉
          |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,446|9): non-printable character (0xb2) ignored.
+ncvlog: *W,NONPRT (./tb/tb_PE.v,502|9): non-printable character (0xb2) ignored.
     // 位移與旋轉
           |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,446|10): non-printable character (0xbe) ignored.
+ncvlog: *W,NONPRT (./tb/tb_PE.v,502|10): non-printable character (0xbe) ignored.
     // 位移與旋轉
            |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,446|11): non-printable character (0xbb) ignored.
+ncvlog: *W,NONPRT (./tb/tb_PE.v,502|11): non-printable character (0xbb) ignored.
     // 位移與旋轉
              |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,446|13): non-printable character (0xb1) ignored.
+ncvlog: *W,NONPRT (./tb/tb_PE.v,502|13): non-printable character (0xb1) ignored.
     // 位移與旋轉
               |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,446|14): non-printable character (0xdb) ignored.
+ncvlog: *W,NONPRT (./tb/tb_PE.v,502|14): non-printable character (0xdb) ignored.
     // 位移與旋轉
                |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,446|15): non-printable character (0xc2) ignored.
+ncvlog: *W,NONPRT (./tb/tb_PE.v,502|15): non-printable character (0xc2) ignored.
     // 位移與旋轉
                 |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,446|16): non-printable character (0xe0) ignored.
+ncvlog: *W,NONPRT (./tb/tb_PE.v,502|16): non-printable character (0xe0) ignored.
     // 除與餘（避免除以0）
        |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,452|7): non-printable character (0xb0) ignored.
+ncvlog: *W,NONPRT (./tb/tb_PE.v,508|7): non-printable character (0xb0) ignored.
     // 除與餘（避免除以0）
         |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,452|8): non-printable character (0xa3) ignored.
+ncvlog: *W,NONPRT (./tb/tb_PE.v,508|8): non-printable character (0xa3) ignored.
     // 除與餘（避免除以0）
          |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,452|9): non-printable character (0xbb) ignored.
+ncvlog: *W,NONPRT (./tb/tb_PE.v,508|9): non-printable character (0xbb) ignored.
     // 除與餘（避免除以0）
            |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,452|11): non-printable character (0xbe) ignored.
+ncvlog: *W,NONPRT (./tb/tb_PE.v,508|11): non-printable character (0xbe) ignored.
     // 除與餘（避免除以0）
              |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,452|13): non-printable character (0xa1) ignored.
+ncvlog: *W,NONPRT (./tb/tb_PE.v,508|13): non-printable character (0xa1) ignored.
     // 平方（even/odd）
        |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,457|7): non-printable character (0xa5) ignored.
+ncvlog: *W,NONPRT (./tb/tb_PE.v,513|7): non-printable character (0xa5) ignored.
     // 平方（even/odd）
         |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,457|8): non-printable character (0xad) ignored.
+ncvlog: *W,NONPRT (./tb/tb_PE.v,513|8): non-printable character (0xad) ignored.
     // 平方（even/odd）
          |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,457|9): non-printable character (0xa4) ignored.
+ncvlog: *W,NONPRT (./tb/tb_PE.v,513|9): non-printable character (0xa4) ignored.
     // 平方（even/odd）
           |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,457|10): non-printable character (0xe8) ignored.
+ncvlog: *W,NONPRT (./tb/tb_PE.v,513|10): non-printable character (0xe8) ignored.
     // 平方（even/odd）
            |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,457|11): non-printable character (0xa1) ignored.
+ncvlog: *W,NONPRT (./tb/tb_PE.v,513|11): non-printable character (0xa1) ignored.
     // 開根號
        |
-ncvlog: *W,NONPRT (./tb/tb_PE.v,466|7): non-printable character (0xb6) ignored.
+ncvlog: *W,NONPRT (./tb/tb_PE.v,522|7): non-printable character (0xb6) ignored.
 	module work.tb_PE
-		errors: 0, warnings: 62
-ncvlog: Memory Usage - 21.4M program + 28.2M data = 49.5M total
+		errors: 0, warnings: 40
+ncvlog: Memory Usage - 21.4M program + 28.2M data = 49.6M total
 ncvlog: CPU Usage - 0.0s system + 0.0s user = 0.0s total (0.0s, 100.0% cpu)
-TOOL:	ncvlog(64)	15.20-s079: Exiting on Nov 07, 2025 at 14:46:56 PST  (total: 00:00:00)
+TOOL:	ncvlog(64)	15.20-s079: Exiting on Nov 08, 2025 at 13:22:35 PST  (total: 00:00:00)

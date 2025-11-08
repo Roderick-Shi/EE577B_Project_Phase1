@@ -1,5 +1,5 @@
 ncelab(64): 15.20-s079: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
-TOOL:	ncelab(64)	15.20-s079: Started on Nov 07, 2025 at 14:46:56 PST
+TOOL:	ncelab(64)	15.20-s079: Started on Nov 08, 2025 at 13:22:35 PST
 ncelab
     -ACCESS +rwc
     -NCFATAL INVSUP
@@ -95,21 +95,21 @@ Resolved design unit 'DW_sqrt' at 'tb_PE.dut@TOP<module>.ALU_DUT@ALU<module>.sqr
 			streams:   5, words:  1904
 		work.pipeline_stages:module <0x7b678547>
 			streams:   4, words:  1871
-		work.tb_PE:module <0x34bcbdc6>
-			streams:  15, words: 106693
+		work.tb_PE:module <0x2f717a69>
+			streams:  16, words: 121996
 	Building instance specific data structures.
 	Loading native compiled code:     .................... Done
 	Design hierarchy summary:
 		                 Instances  Unique
 		Modules:                37       9
-		Registers:             982     114
+		Registers:             983     115
 		Scalar wires:           84       -
 		Expanded wires:        713      44
 		Vectored wires:         51       -
 		Always blocks:          22       8
-		Initial blocks:         32       4
+		Initial blocks:         33       5
 		Cont. assignments:      55      82
 		Pseudo assignments:     13      13
 		Simulation timescale:  1ps
 	Writing initial simulation snapshot: work.tb_PE:module
-TOOL:	ncelab(64)	15.20-s079: Exiting on Nov 07, 2025 at 14:46:56 PST  (total: 00:00:00)
+TOOL:	ncelab(64)	15.20-s079: Exiting on Nov 08, 2025 at 13:22:35 PST  (total: 00:00:00)
