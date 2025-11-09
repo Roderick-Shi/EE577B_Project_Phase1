@@ -2,10 +2,10 @@
 
 // ===== Centralized filename defaults (can be overridden by +args) =====
 `define DEFAULT_DMEM_FILE        "mem/dmem.fill"
-`define DEFAULT_IMEM_FILE        "mem/imem_2.fill"
-`define DEFAULT_LOG_FILE         "PE_Test_Results_2.txt"
-`define DEFAULT_DMEM_OUT_FILE    "PE_DataMemory_Dump_2.txt"
-`define DEFAULT_RPT_DUMP_FILE    "report/dmem_2.dump"
+`define DEFAULT_IMEM_FILE        "mem/imem_40.fill"
+`define DEFAULT_LOG_FILE         "PE_Test_Results_40.txt"
+`define DEFAULT_DMEM_OUT_FILE    "PE_DataMemory_Dump_40.txt"
+`define DEFAULT_RPT_DUMP_FILE    "report/dmem_40.dump"
 
 // ===== Includes (so Makefile only compiles ./design & ./tb but still gets memory RTL) =====
 `include "./include/dmem.v"
