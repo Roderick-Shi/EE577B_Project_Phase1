@@ -59,7 +59,9 @@ module RegisterFile (
 
 endmodule
 
-//HDU unit 
+//==============================================================
+//  HDU
+//==============================================================
 module HDU(
     input [0:4] Dest_EX_Stage, Dest_WB_Stage, SR1_ID_Stage, SR2_ID_Stage,
     input Write_Intent_EX, Write_Intent_WB, read_Intent,
@@ -111,7 +113,7 @@ endmodule
 
 
 //===========================================================
-// ALU (cleaned up: case on function_code + width helper)
+// ALU 
 //===========================================================
 module ALU (
   input  [0:63] dataA_ALU_in,
@@ -557,7 +559,7 @@ endmodule
 
 
 //==============================================================
-//  Module: pipeline_3stages
+//  Module: pipeline_4stages
 //==============================================================
 //
 //    IF  →  ID  →  EX/MEM  →  WB
@@ -682,42 +684,43 @@ module TOP(
     output nicEn,
     output nicWrEn
 );
-  // === IF stage wires (renamed) ===
-  wire [0:31] instr_ifid_in;         // was Instr_to_stage1
-  wire [0:31] ifid_q;                // was stage1_IF_ID_out
 
-  // === ID stage decode (renamed) ===
-  wire [0:4] rsA, rsB, rdW;          // was rA, rB, rD
-  wire [0:4] rf_addr1, rf_addr2;     // was rdAddr1_in, rdAddr2_in
-  wire        is_rdtype;             // was rDType
-  wire        is_branch;             // was BType
-  wire        br_taken;              // was BTaken
-  wire [0:63] rf_data1, rf_data2;    // was rdData1_out, rdData2_out
+  // === IF stage wires ===
+  wire [0:31] instr_ifid_in;         
+  wire [0:31] ifid_q;                
 
-  wire [0:31] instr_to_idex;         // was Instr_to_stage2
+  // === ID stage decode  ===
+  wire [0:4] rsA, rsB, rdW;          
+  wire [0:4] rf_addr1, rf_addr2;     
+  wire        is_rdtype;             
+  wire        is_branch;             
+  wire        br_taken;              
+  wire [0:63] rf_data1, rf_data2;    
 
-  // Per-byte forwarded/selected sources (renamed)
-  wire [0:7] src1_B0, src1_B1, src1_B2, src1_B3, src1_B4, src1_B5, src1_B6, src1_B7; // was data1_to_stage2_B*
-  wire [0:7] src2_B0, src2_B1, src2_B2, src2_B3, src2_B4, src2_B5, src2_B6, src2_B7; // was data2_to_stage2_B*
-  wire [0:63] src1_merged, src2_merged;                                              // was data1_to_stage2, data2_to_stage2
+  wire [0:31] instr_to_idex;         
 
-  // === Pipeline regs (renamed) ===
-  wire [0:159] stage2_ID_EXMEM_out;           // was stage2_ID_EXMEM_out
-  wire [0:72]  stage3_EXMEM_WB_out;           // was stage3_EXMEM_WB_out
+  // Per-byte forwarded/selected sources
+  wire [0:7] src1_B0, src1_B1, src1_B2, src1_B3, src1_B4, src1_B5, src1_B6, src1_B7; 
+  wire [0:7] src2_B0, src2_B1, src2_B2, src2_B3, src2_B4, src2_B5, src2_B6, src2_B7; 
+  wire [0:63] src1_merged, src2_merged;                                              
 
-  // === Forwarding (renamed) ===
-  wire [0:63] fwd_ex, fwd_wb;       // was forward_from_EX, forward_from_WB
+  // === Pipeline regs ===
+  wire [0:159] stage2_ID_EXMEM_out;           
+  wire [0:72]  stage3_EXMEM_WB_out;           
 
-  // === EX/MEM signals (mostly unchanged) ===
+  // === Forwarding ===
+  wire [0:63] fwd_ex, fwd_wb;       
+
+  // === EX/MEM signals ===
   wire        ALU_en;
   wire [0:63] ALU_data_out;
   wire [0:63] data_to_stage3;
   wire        stall;
 
-  // === WB controls (renamed) ===
-  wire        wb_regwen;            // was RegWrEn_from_WB
-  wire [0:4]  wb_waddr;             // was WriteAdd_from_WB
-  wire [0:2]  wb_ppp;               // was PPP_from_WB
+  // === WB controls ===
+  wire        wb_regwen;            
+  wire [0:4]  wb_waddr;             
+  wire [0:2]  wb_ppp;               
 
   pipeline_stages pipe(
     .clk(clk), .reset(reset), .en(~stall),
@@ -748,6 +751,7 @@ module TOP(
                              (Instr_from_imem[26:31] == 8 || Instr_from_imem[26:31] == 9 || Instr_from_imem[26:31] == 16 || Instr_from_imem[26:31] == 17) &&
                              Instr_from_imem[24:25] == 2'b11;
   assign r0_writing        = (Instr_from_imem[0:5] == 6'b101010 || Instr_from_imem[0:5] == 6'b100000) && Instr_from_imem[6:10] == 0;
+  
   assign bad_opcode        = Instr_from_imem[0:5] != 6'b101010 &&
                              Instr_from_imem[0:5] != 6'b100000 &&
                              Instr_from_imem[0:5] != 6'b100001 &&
@@ -791,7 +795,7 @@ module TOP(
   wire Haz_from_WB_to_SR1_B0, Haz_from_WB_to_SR1_B1, Haz_from_WB_to_SR1_B2, Haz_from_WB_to_SR1_B3, Haz_from_WB_to_SR1_B4, Haz_from_WB_to_SR1_B5, Haz_from_WB_to_SR1_B6, Haz_from_WB_to_SR1_B7;
   wire Haz_from_WB_to_SR2_B0, Haz_from_WB_to_SR2_B1, Haz_from_WB_to_SR2_B2, Haz_from_WB_to_SR2_B3, Haz_from_WB_to_SR2_B4, Haz_from_WB_to_SR2_B5, Haz_from_WB_to_SR2_B6, Haz_from_WB_to_SR2_B7;
 
-  HDU HDU1(
+  HDU HDU_1(
     .Dest_EX_Stage(stage2_ID_EXMEM_out[6:10]),
     .Dest_WB_Stage(stage3_EXMEM_WB_out[1:5]),
     .SR1_ID_Stage(rf_addr1),
@@ -855,7 +859,7 @@ module TOP(
 
   assign ALU_en = (stage2_ID_EXMEM_out[0:5] == 6'b101010) && stage2_ID_EXMEM_out[26:31] <= 18;
 
-  ALU ALU_DUT(
+  ALU ALU_DUT1(
     .function_code(stage2_ID_EXMEM_out[26:31]),
     .dataA_ALU_in(stage2_ID_EXMEM_out[32:95]),
     .dataB_ALU_in(stage2_ID_EXMEM_out[96:159]),
@@ -880,4 +884,3 @@ module TOP(
   assign wb_ppp    = stage3_EXMEM_WB_out[6:8];
 
 endmodule
-
