@@ -1,0 +1,40 @@
+==== PE Test Results ====
+Time unit = 0 (timescale 1ns/1ps)
+
+IMEM=mem/imem_8.fill
+DMEM=mem/dmem.fill
+[PASS] func=1 ww=3 tag=VAND 64 -> 1020030405245208
+[PASS] func=2 ww=3 tag=VOR 64 -> f1f23f4ff5e77fda
+[PASS] func=3 ww=3 tag=VXOR 64 -> e1d23c4bf0c32dd2
+[PASS] func=4 ww=3 tag=VNOT 64 -> eeddccbbaa998877
+[PASS] func=5 ww=3 tag=VMOV 64 -> 1122334455667788
+[PASS] func=6 ww=2 tag=VADD 32x2 -> 02124253fb0bd1e2
+[PASS] func=6 ww=1 tag=VADD 16x4 -> 02124253fb0bd1e2
+[PASS] func=6 ww=0 tag=VADD 8x8 -> 01124253fa0bd1e2
+[PASS] func=7 ww=2 tag=VSUB 32x2 -> 20322435afc11d2e
+[PASS] func=7 ww=1 tag=VSUB 16x4 -> 20322435afc11d2e
+[PASS] func=7 ww=0 tag=VSUB 8x8 -> 21322435b0c11d2e
+[PASS] func=8 ww=0 tag=VMULEU 8x8 -> 0ff002fd36c929d6
+[PASS] func=8 ww=1 tag=VMULEU 16x4 -> 101fefe03741c8be
+[PASS] func=8 ww=2 tag=VMULEU 32x2 -> 10202121d1c1fcfc
+[PASS] func=9 ww=0 tag=VMULOU 8x8 -> 1fe003fc41be2fd0
+[PASS] func=9 ww=1 tag=VMULOU 16x4 -> 0303fcfc2a2fd5d0
+[PASS] func=9 ww=2 tag=VMULOU 32x2 -> 37423439beb3d5d0
+[PASS] func=10 ww=3 tag=VSLL 64 -> 446688aaccef1000
+[PASS] func=11 ww=2 tag=VSRL 32x2 -> 11223344002ab33b
+[PASS] func=12 ww=1 tag=VSRA 16x4 -> 112233445566003b
+[PASS] func=13 ww=0 tag=VRTTH 8x8 -> 1122334455667788
+[PASS] func=14 ww=3 tag=VDIV 64 -> 00205d0b811316e1
+[PASS] func=14 ww=2 tag=VDIV 32x2 -> 00205d0b0f4bfa6f
+[PASS] func=15 ww=1 tag=VMOD 16x4 -> 0003000100080006
+[PASS] func=16 ww=2 tag=VSQEU 32x2 -> 00014b66dafaaf71
+[PASS] func=16 ww=1 tag=VSQEU 16x4 -> 00014ac94a087839
+[PASS] func=16 ww=0 tag=VSQEU 8x8 -> 000112994951a429
+[PASS] func=17 ww=2 tag=VSQOU 32x2 -> 4a0955b690f2a521
+[PASS] func=17 ww=1 tag=VSQOU 16x4 -> 12d0af71a5a8a521
+[PASS] func=17 ww=0 tag=VSQOU 8x8 -> 04c929717239df21
+[PASS] func=18 ww=3 tag=VSQRT 64 -> 0000000000000003
+[PASS] func=18 ww=2 tag=VSQRT 32x2 -> 0000000300000003
+[PASS] func=18 ww=1 tag=VSQRT 16x4 -> 0003000300030003
+[PASS] func=18 ww=0 tag=VSQRT 8x8 -> 0303030303030303
+=== ALL ALU FUNCTION CODES EXERCISED ===
