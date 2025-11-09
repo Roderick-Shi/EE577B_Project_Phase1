@@ -1,0 +1,78 @@
+
+#
+# Mnemonic Maps
+#
+mmap new -reuse -name {Boolean as Logic} -radix %b -contents {{%c=FALSE -edgepriority 1 -shape low}
+{%c=TRUE -edgepriority 1 -shape high}}
+mmap new -reuse -name {Example Map} -radix %x -contents {{%b=11???? -bgcolor orange -label REG:%x -linecolor yellow -shape bus}
+{%x=1F -bgcolor red -label ERROR -linecolor white -shape EVENT}
+{%x=2C -bgcolor red -label ERROR -linecolor white -shape EVENT}
+{%x=* -label %x -linecolor gray -shape bus}}
+
+array unset createdGroup
+array set createdGroup {}
+set id [waveform add -signals [subst  {
+	{[format {tb.clk}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.reset}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.nicEn}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.nicWrEn}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.addr[1:0]}]}
+	} ]]
+waveform format $id -radix %b
+set id [waveform add -signals [subst  {
+	{[format {tb.net_polarity}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.in_status}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.buff_en}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.d_in[63:0]}]}
+	} ]]
+waveform format $id -radix %d
+set id [waveform add -signals [subst  {
+	{[format {tb.uut.input_channel_buf_out[63:0]}]}
+	} ]]
+waveform format $id -radix %d
+set id [waveform add -signals [subst  {
+	{[format {tb.d_out[63:0]}]}
+	} ]]
+waveform format $id -radix %d
+set id [waveform add -signals [subst  {
+	{[format {tb.net_di[63:0]}]}
+	} ]]
+waveform format $id -radix %d
+set id [waveform add -signals [subst  {
+	{[format {tb.net_ri}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.net_si}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.out_status}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.net_ro}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.uut.polarity_vc_match}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.net_so}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.net_do[63:0]}]}
+	} ]]
+waveform format $id -radix %d
+
+waveform xview limits 0 26000ps

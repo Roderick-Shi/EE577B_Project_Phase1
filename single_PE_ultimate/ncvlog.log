@@ -1,0 +1,176 @@
+ncvlog(64): 15.20-s079: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
+TOOL:	ncvlog(64)	15.20-s079: Started on Nov 08, 2025 at 17:00:49 PST
+ncvlog
+    -STATUS
+    -MESSAGES
+    -UPDATE
+    -INCDIR ./include
+    -work work
+    ./tb/tb_PE.v
+
+file: ./tb/tb_PE.v
+	module work.dmem
+		errors: 0, warnings: 0
+	module work.imem
+		errors: 0, warnings: 0
+   // 等 Phase 1 完成後再 reset 一次，開始跑程式
+      |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,602|6): non-printable character (0xb5) ignored.
+   // 等 Phase 1 完成後再 reset 一次，開始跑程式
+       |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,602|7): non-printable character (0xa5) ignored.
+   // 監看 NOP（32'h0）作為程式結束條件
+      |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,608|6): non-printable character (0xba) ignored.
+   // 監看 NOP（32'h0）作為程式結束條件
+       |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,608|7): non-printable character (0xca) ignored.
+   // 監看 NOP（32'h0）作為程式結束條件
+        |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,608|8): non-printable character (0xac) ignored.
+   // 監看 NOP（32'h0）作為程式結束條件
+         |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,608|9): non-printable character (0xdd) ignored.
+   // 監看 NOP（32'h0）作為程式結束條件
+              |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,608|14): non-printable character (0xa1) ignored.
+     // 確保先等到 Phase 2 的 reset 做完才監看
+        |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,610|8): non-printable character (0xbd) ignored.
+     // 確保先等到 Phase 2 的 reset 做完才監看
+          |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,610|10): non-printable character (0xab) ignored.
+     // 確保先等到 Phase 2 的 reset 做完才監看
+            |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,610|12): non-printable character (0xa5) ignored.
+     // 確保先等到 Phase 2 的 reset 做完才監看
+             |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,610|13): non-printable character (0xfd) ignored.
+     // 確保先等到 Phase 2 的 reset 做完才監看
+              |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,610|14): non-printable character (0xb5) ignored.
+     // 確保先等到 Phase 2 的 reset 做完才監看
+               |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,610|15): non-printable character (0xa5) ignored.
+     // 確保先等到 Phase 2 的 reset 做完才監看
+                |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,610|16): non-printable character (0xa8) ignored.
+     // 確保先等到 Phase 2 的 reset 做完才監看
+                 |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,610|17): non-printable character (0xec) ignored.
+     // 等到取到 NOP
+        |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,612|8): non-printable character (0xb5) ignored.
+     // 等到取到 NOP
+         |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,612|9): non-printable character (0xa5) ignored.
+     // 等到取到 NOP
+          |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,612|10): non-printable character (0xa8) ignored.
+     // 等到取到 NOP
+           |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,612|11): non-printable character (0xec) ignored.
+     // 等到取到 NOP
+            |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,612|12): non-printable character (0xa8) ignored.
+     // 等到取到 NOP
+             |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,612|13): non-printable character (0xfa) ignored.
+     // 等到取到 NOP
+              |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,612|14): non-printable character (0xa8) ignored.
+     // 等到取到 NOP
+               |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,612|15): non-printable character (0xec) ignored.
+     // 清管線
+        |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,614|8): non-printable character (0xb2) ignored.
+     // 清管線
+          |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,614|10): non-printable character (0xba) ignored.
+     // 清管線
+           |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,614|11): non-printable character (0xde) ignored.
+     // 清管線
+            |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,614|12): non-printable character (0xbd) ignored.
+   // 看門狗（避免卡死）
+      |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,620|6): non-printable character (0xac) ignored.
+   // 看門狗（避免卡死）
+       |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,620|7): non-printable character (0xdd) ignored.
+   // 看門狗（避免卡死）
+        |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,620|8): non-printable character (0xaa) ignored.
+   // 看門狗（避免卡死）
+         |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,620|9): non-printable character (0xf9) ignored.
+   // 看門狗（避免卡死）
+          |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,620|10): non-printable character (0xaa) ignored.
+   // 看門狗（避免卡死）
+           |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,620|11): non-printable character (0xaf) ignored.
+   // 看門狗（避免卡死）
+            |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,620|12): non-printable character (0xa1) ignored.
+    // 使用集中管理後的檔名
+       |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,633|7): non-printable character (0xa8) ignored.
+    // 使用集中管理後的檔名
+        |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,633|8): non-printable character (0xcf) ignored.
+    // 使用集中管理後的檔名
+         |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,633|9): non-printable character (0xa5) ignored.
+    // 使用集中管理後的檔名
+          |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,633|10): non-printable character (0xce) ignored.
+    // 使用集中管理後的檔名
+           |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,633|11): non-printable character (0xb6) ignored.
+    // 使用集中管理後的檔名
+            |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,633|12): non-printable character (0xb0) ignored.
+    // 使用集中管理後的檔名
+             |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,633|13): non-printable character (0xa4) ignored.
+    // 使用集中管理後的檔名
+              |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,633|14): non-printable character (0xa4) ignored.
+    // 使用集中管理後的檔名
+               |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,633|15): non-printable character (0xba) ignored.
+    // 使用集中管理後的檔名
+                |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,633|16): non-printable character (0xde) ignored.
+    // 使用集中管理後的檔名
+                 |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,633|17): non-printable character (0xb2) ignored.
+    // 使用集中管理後的檔名
+                   |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,633|19): non-printable character (0xab) ignored.
+    // 使用集中管理後的檔名
+                    |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,633|20): non-printable character (0xe1) ignored.
+    // 使用集中管理後的檔名
+                     |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,633|21): non-printable character (0xaa) ignored.
+    // 使用集中管理後的檔名
+                      |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,633|22): non-printable character (0xba) ignored.
+    // 使用集中管理後的檔名
+                       |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,633|23): non-printable character (0xc0) ignored.
+    // 使用集中管理後的檔名
+                        |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,633|24): non-printable character (0xc9) ignored.
+    // 使用集中管理後的檔名
+                         |
+ncvlog: *W,NONPRT (./tb/tb_PE.v,633|25): non-printable character (0xa6) ignored.
+	module work.tb_PE
+		errors: 0, warnings: 52
+ncvlog: Memory Usage - 21.4M program + 28.6M data = 49.9M total
+ncvlog: CPU Usage - 0.0s system + 0.0s user = 0.0s total (0.0s, 100.0% cpu)
+TOOL:	ncvlog(64)	15.20-s079: Exiting on Nov 08, 2025 at 17:00:49 PST  (total: 00:00:00)
