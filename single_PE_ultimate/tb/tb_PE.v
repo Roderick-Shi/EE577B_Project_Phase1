@@ -1,11 +1,12 @@
 `timescale 1ns/1ps
 
 // ===== Centralized filename defaults (can be overridden by +args) =====
+// !!! Change the testcase name here !!!
 `define DEFAULT_DMEM_FILE        "mem/dmem.fill"
-`define DEFAULT_IMEM_FILE        "mem/imem_40.fill"
-`define DEFAULT_LOG_FILE         "PE_Test_Results_40.txt"
-`define DEFAULT_DMEM_OUT_FILE    "PE_DataMemory_Dump_40.txt"
-`define DEFAULT_RPT_DUMP_FILE    "report/dmem_40.dump"
+`define DEFAULT_IMEM_FILE        "mem/imem_1.fill"
+`define DEFAULT_LOG_FILE         "PE_Test_Results_1.txt"
+`define DEFAULT_DMEM_OUT_FILE    "PE_DataMemory_Dump_1.txt"
+`define DEFAULT_RPT_DUMP_FILE    "report/dmem_1.dump"
 
 // ===== Includes (so Makefile only compiles ./design & ./tb but still gets memory RTL) =====
 `include "./include/dmem.v"
@@ -73,7 +74,7 @@ module tb_PE;
   );
 
   // -----------------------------
-  // Memories (1¡Ñ imem, 1¡Ñ dmem)
+  // Memories (1Ã— imem, 1Ã— dmem)
   //   - TOP exposes 32-bit PC/addr; these memories use 8-bit addresses
   //   - Follow TA's convention: imem uses PC[22:29], dmem uses addr[24:31]
   // -----------------------------
@@ -422,7 +423,7 @@ module tb_PE;
           R         = 64'h0;
         end
       end
-      // VSQRT ¡X per-lane integer sqrt
+      // VSQRT â€” per-lane integer sqrt
       6'b010010: begin
         if (ww==2'b11) begin
           R = 64'd0;
@@ -599,28 +600,28 @@ module tb_PE;
    // -----------------------------
    integer DM_DUMP_FD, i_dump, rpt_fd;
 
-   // µ¥ Phase 1 §¹¦¨«á¦A reset ¤@¦¸¡A¶}©l¶]µ{¦¡
+   // ç­‰ Phase 1 å®Œæˆå¾Œå† reset ä¸€æ¬¡ï¼Œé–‹å§‹è·‘ç¨‹å¼
    initial begin : PHASE2_START
      wait (alu_phase_done === 1'b1);
      do_reset;
    end
 
-   // ºÊ¬İ NOP¡]32'h0¡^§@¬°µ{¦¡µ²§ô±ø¥ó
+   // ç›£çœ‹ NOPï¼ˆ32'h0ï¼‰ä½œç‚ºç¨‹å¼çµæŸæ¢ä»¶
    initial begin : RUN_TILL_NOP
-     // ½T«O¥ıµ¥¨ì Phase 2 ªº reset °µ§¹¤~ºÊ¬İ
+     // ç¢ºä¿å…ˆç­‰åˆ° Phase 2 çš„ reset åšå®Œæ‰ç›£çœ‹
      wait (alu_phase_done === 1'b1);
-     // µ¥¨ì¨ú¨ì NOP
+     // ç­‰åˆ°å–åˆ° NOP
      wait (Instr_from_imem == 32'h0000_0000);
-     // ²MºŞ½u
+     // æ¸…ç®¡ç·š
      repeat (5) @(negedge clk);
-     // Dump & finish¡]¤º§t $finish;¡^
+     // Dump & finishï¼ˆå…§å« $finish;ï¼‰
      dump_dmem_and_finish;
    end
 
-   // ¬İªùª¯¡]Á×§K¥d¦º¡^
+   // çœ‹é–€ç‹—ï¼ˆé¿å…å¡æ­»ï¼‰
    initial begin : WATCHDOG
      wait (alu_phase_done === 1'b1);
-     repeat (20000) @(posedge clk); // ~80us ¨Ì§A®É¯ß
+     repeat (20000) @(posedge clk); // ~80us ä¾ä½ æ™‚è„ˆ
      $display("** WATCHDOG TIMEOUT: dumping DMEM and finishing **");
      dump_dmem_and_finish;
    end
@@ -630,7 +631,7 @@ module tb_PE;
   // -----------------------------
   task dump_dmem_and_finish;
   begin
-    // ¨Ï¥Î¶°¤¤ºŞ²z«áªºÀÉ¦W
+    // ä½¿ç”¨é›†ä¸­ç®¡ç†å¾Œçš„æª”å
     rpt_fd     = $fopen(RPT_DUMP_FILE,"w");
     //DM_DUMP_FD = $fopen(DMEM_OUT_FILE,"w");
 
