@@ -1,0 +1,53 @@
+Loading db file '/home/scf-22/ee577/NCSU45PDK/FreePDK45/osu_soc/lib/files/gscl45nm.db'
+Information: Propagating switching activity (low effort zero delay simulation). (PWR-6)
+Warning: Design has unannotated primary inputs. (PWR-414)
+Warning: Design has unannotated sequential cell outputs. (PWR-415)
+ 
+****************************************
+Report : power
+        -analysis_effort low
+Design : cardinal_router
+Version: K-2015.06-SP5-5
+Date   : Tue Dec  2 19:25:03 2025
+****************************************
+
+
+Library(s) Used:
+
+    gscl45nm (File: /home/scf-22/ee577/NCSU45PDK/FreePDK45/osu_soc/lib/files/gscl45nm.db)
+
+
+Operating Conditions: typical   Library: gscl45nm
+Wire Load Model Mode: top
+
+
+Global Operating Voltage = 1.1  
+Power-specific unit information :
+    Voltage Units = 1V
+    Capacitance Units = 1.000000pf
+    Time Units = 1ns
+    Dynamic Power Units = 1mW    (derived from V,C,T units)
+    Leakage Power Units = 1nW
+
+
+  Cell Internal Power  =   5.8451 mW   (94%)
+  Net Switching Power  = 345.5217 uW    (6%)
+                         ---------
+Total Dynamic Power    =   6.1906 mW  (100%)
+
+Cell Leakage Power     = 120.6577 uW
+
+
+                 Internal         Switching           Leakage            Total
+Power Group      Power            Power               Power              Power   (   %    )  Attrs
+--------------------------------------------------------------------------------------------------
+io_pad             0.0000            0.0000            0.0000            0.0000  (   0.00%)
+memory             0.0000            0.0000            0.0000            0.0000  (   0.00%)
+black_box          0.0000            0.0000            0.0000            0.0000  (   0.00%)
+clock_network      0.0000            0.0000            0.0000            0.0000  (   0.00%)
+register           5.5648        9.9385e-03        7.2826e+04            5.6476  (  89.48%)
+sequential         0.0000            0.0000            0.0000            0.0000  (   0.00%)
+combinational      0.2803            0.3356        4.7832e+04            0.6637  (  10.52%)
+--------------------------------------------------------------------------------------------------
+Total              5.8451 mW         0.3455 mW     1.2066e+05 nW         6.3113 mW
+1
