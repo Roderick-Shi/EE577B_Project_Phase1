@@ -1,0 +1,10 @@
+           TEST1 T=1200 | addr=10 nicEn=1 nicEnWr=1 | d_in=1234 | d_out=0 | net_do=1234 | net_so=1 | net_ri=1 | net_si=0 | net_ro=1 | polarity=1
+           TEST2 T=1600 | addr=10 nicEn=1 nicEnWr=1 | d_in=1111 | d_out=0 | net_do=1111 | net_so=0 | net_ri=1 | net_si=0 | net_ro=1 | polarity=0
+           TEST3 T=2000 | addr=10 nicEn=1 nicEnWr=1 | d_in=9223372036854775808 | d_out=0 | net_do=1111 | net_so=0 | net_ri=1 | net_si=0 | net_ro=1 | polarity=1
+           TEST4 T=2400 | addr=10 nicEn=1 nicEnWr=1 | d_in=3333 | d_out=0 | net_do=3333 | net_so=0 | net_ri=1 | net_si=0 | net_ro=1 | polarity=0
+           TEST5 T=2800 | addr=10 nicEn=1 nicEnWr=1 | d_in=9223372036854775812 | d_out=0 | net_do=3333 | net_so=0 | net_ri=1 | net_si=0 | net_ro=1 | polarity=1
+           TEST6 T=3200 | addr=0 nicEn=1 nicEnWr=1 | d_in=5555 | d_out=0 | net_do=0 | net_so=0 | net_ri=1 | net_si=0 | net_ro=1 | polarity=0
+           TEST7 T=3600 | addr=0 nicEn=1 nicEnWr=0 | d_in=6666 | d_out=1314 | net_do=0 | net_so=0 | net_ri=1 | net_si=1 | net_ro=1 | polarity=1
+           TEST8 T=4000 | addr=1 nicEn=1 nicEnWr=0 | d_in=7777 | d_out=1 | net_do=0 | net_so=0 | net_ri=0 | net_si=0 | net_ro=0 | polarity=0
+           TEST9 T=4400 | addr=11 nicEn=1 nicEnWr=0 | d_in=7777 | d_out=0 | net_do=0 | net_so=0 | net_ri=0 | net_si=0 | net_ro=0 | polarity=1
+          TEST10 T=4800 | addr=0 nicEn=1 nicEnWr=0 | d_in=7777 | d_out=1314 | net_do=0 | net_so=0 | net_ri=1 | net_si=0 | net_ro=0 | polarity=0

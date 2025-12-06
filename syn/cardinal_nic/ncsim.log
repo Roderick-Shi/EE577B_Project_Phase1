@@ -1,0 +1,45 @@
+T=0 | addr=0 nicEn=0 nicEnWr=0 | d_in=0 | d_out=x | net_do=x | net_so=x | net_ri=x | net_si=0 | net_ro=0 | polarity=0
+T=100 | addr=0 nicEn=0 nicEnWr=0 | d_in=0 | d_out=X | net_do=x | net_so=x | net_ri=x | net_si=0 | net_ro=0 | polarity=0
+T=100 | addr=0 nicEn=0 nicEnWr=0 | d_in=0 | d_out=X | net_do=x | net_so=0 | net_ri=x | net_si=0 | net_ro=0 | polarity=0
+T=100 | addr=0 nicEn=0 nicEnWr=0 | d_in=0 | d_out=0 | net_do=x | net_so=0 | net_ri=x | net_si=0 | net_ro=0 | polarity=0
+T=200 | addr=0 nicEn=0 nicEnWr=0 | d_in=0 | d_out=0 | net_do=0 | net_so=0 | net_ri=x | net_si=0 | net_ro=0 | polarity=0
+T=300 | addr=0 nicEn=0 nicEnWr=0 | d_in=0 | d_out=0 | net_do=0 | net_so=0 | net_ri=1 | net_si=0 | net_ro=0 | polarity=0
+T=800 | addr=10 nicEn=1 nicEnWr=1 | d_in=1234 | d_out=0 | net_do=0 | net_so=0 | net_ri=1 | net_si=0 | net_ro=1 | polarity=1
+T=1000 | addr=10 nicEn=1 nicEnWr=1 | d_in=1234 | d_out=0 | net_do=1234 | net_so=0 | net_ri=1 | net_si=0 | net_ro=1 | polarity=1
+T=1100 | addr=10 nicEn=1 nicEnWr=1 | d_in=1234 | d_out=0 | net_do=1234 | net_so=1 | net_ri=1 | net_si=0 | net_ro=1 | polarity=1
+T=1200 | addr=10 nicEn=1 nicEnWr=1 | d_in=1111 | d_out=0 | net_do=1234 | net_so=1 | net_ri=1 | net_si=0 | net_ro=1 | polarity=0
+T=1300 | addr=10 nicEn=1 nicEnWr=1 | d_in=1111 | d_out=0 | net_do=1234 | net_so=0 | net_ri=1 | net_si=0 | net_ro=1 | polarity=0
+T=1400 | addr=10 nicEn=1 nicEnWr=1 | d_in=1111 | d_out=0 | net_do=1106 | net_so=0 | net_ri=1 | net_si=0 | net_ro=1 | polarity=0
+T=1400 | addr=10 nicEn=1 nicEnWr=1 | d_in=1111 | d_out=0 | net_do=1111 | net_so=0 | net_ri=1 | net_si=0 | net_ro=1 | polarity=0
+T=1600 | addr=10 nicEn=1 nicEnWr=1 | d_in=9223372036854775808 | d_out=0 | net_do=1111 | net_so=0 | net_ri=1 | net_si=0 | net_ro=1 | polarity=1
+T=1700 | addr=10 nicEn=1 nicEnWr=1 | d_in=9223372036854775808 | d_out=0 | net_do=1111 | net_so=1 | net_ri=1 | net_si=0 | net_ro=1 | polarity=1
+T=1900 | addr=10 nicEn=1 nicEnWr=1 | d_in=9223372036854775808 | d_out=0 | net_do=1111 | net_so=0 | net_ri=1 | net_si=0 | net_ro=1 | polarity=1
+T=2000 | addr=10 nicEn=1 nicEnWr=1 | d_in=3333 | d_out=0 | net_do=1111 | net_so=0 | net_ri=1 | net_si=0 | net_ro=1 | polarity=0
+T=2200 | addr=10 nicEn=1 nicEnWr=1 | d_in=3333 | d_out=0 | net_do=1029 | net_so=0 | net_ri=1 | net_si=0 | net_ro=1 | polarity=0
+T=2200 | addr=10 nicEn=1 nicEnWr=1 | d_in=3333 | d_out=0 | net_do=3333 | net_so=0 | net_ri=1 | net_si=0 | net_ro=1 | polarity=0
+T=2400 | addr=10 nicEn=1 nicEnWr=1 | d_in=9223372036854775812 | d_out=0 | net_do=3333 | net_so=0 | net_ri=1 | net_si=0 | net_ro=1 | polarity=1
+T=2500 | addr=10 nicEn=1 nicEnWr=1 | d_in=9223372036854775812 | d_out=0 | net_do=3333 | net_so=1 | net_ri=1 | net_si=0 | net_ro=1 | polarity=1
+T=2700 | addr=10 nicEn=1 nicEnWr=1 | d_in=9223372036854775812 | d_out=0 | net_do=3333 | net_so=0 | net_ri=1 | net_si=0 | net_ro=1 | polarity=1
+T=2800 | addr=0 nicEn=1 nicEnWr=1 | d_in=5555 | d_out=0 | net_do=3333 | net_so=0 | net_ri=1 | net_si=0 | net_ro=1 | polarity=0
+T=3000 | addr=0 nicEn=1 nicEnWr=1 | d_in=5555 | d_out=0 | net_do=0 | net_so=0 | net_ri=1 | net_si=0 | net_ro=1 | polarity=0
+T=3200 | addr=0 nicEn=1 nicEnWr=0 | d_in=6666 | d_out=0 | net_do=0 | net_so=0 | net_ri=1 | net_si=1 | net_ro=1 | polarity=1
+T=3500 | addr=0 nicEn=1 nicEnWr=0 | d_in=6666 | d_out=1314 | net_do=0 | net_so=0 | net_ri=1 | net_si=1 | net_ro=1 | polarity=1
+T=3600 | addr=1 nicEn=1 nicEnWr=0 | d_in=7777 | d_out=1314 | net_do=0 | net_so=0 | net_ri=1 | net_si=0 | net_ro=0 | polarity=0
+T=3700 | addr=1 nicEn=1 nicEnWr=0 | d_in=7777 | d_out=1315 | net_do=0 | net_so=0 | net_ri=1 | net_si=0 | net_ro=0 | polarity=0
+T=3700 | addr=1 nicEn=1 nicEnWr=0 | d_in=7777 | d_out=1315 | net_do=0 | net_so=0 | net_ri=0 | net_si=0 | net_ro=0 | polarity=0
+T=3700 | addr=1 nicEn=1 nicEnWr=0 | d_in=7777 | d_out=3 | net_do=0 | net_so=0 | net_ri=0 | net_si=0 | net_ro=0 | polarity=0
+T=3700 | addr=1 nicEn=1 nicEnWr=0 | d_in=7777 | d_out=1 | net_do=0 | net_so=0 | net_ri=0 | net_si=0 | net_ro=0 | polarity=0
+T=4000 | addr=11 nicEn=1 nicEnWr=0 | d_in=7777 | d_out=1 | net_do=0 | net_so=0 | net_ri=0 | net_si=0 | net_ro=0 | polarity=1
+T=4100 | addr=11 nicEn=1 nicEnWr=0 | d_in=7777 | d_out=0 | net_do=0 | net_so=0 | net_ri=0 | net_si=0 | net_ro=0 | polarity=1
+T=4400 | addr=0 nicEn=1 nicEnWr=0 | d_in=7777 | d_out=0 | net_do=0 | net_so=0 | net_ri=0 | net_si=0 | net_ro=0 | polarity=0
+T=4500 | addr=0 nicEn=1 nicEnWr=0 | d_in=7777 | d_out=1312 | net_do=0 | net_so=0 | net_ri=0 | net_si=0 | net_ro=0 | polarity=0
+T=4500 | addr=0 nicEn=1 nicEnWr=0 | d_in=7777 | d_out=1312 | net_do=0 | net_so=0 | net_ri=1 | net_si=0 | net_ro=0 | polarity=0
+T=4600 | addr=0 nicEn=1 nicEnWr=0 | d_in=7777 | d_out=1314 | net_do=0 | net_so=0 | net_ri=1 | net_si=0 | net_ro=0 | polarity=0
+T=5100 | addr=0 nicEn=1 nicEnWr=0 | d_in=7777 | d_out=0 | net_do=0 | net_so=0 | net_ri=1 | net_si=0 | net_ro=0 | polarity=0
+Simulation complete via $finish(1) at time 52 NS + 0
+./tb/tb_cardinal_nic_syn.v:196     $finish;
+ncsim> 
+ncsim> ^C
+ncsim> exit
+ncsim: Memory Usage - 38.6M program + 179.7M data = 218.3M total (222.8M Peak)
+ncsim: CPU Usage - 5.9s system + 2.7s user = 8.6s total (490.7s, 1.8% cpu)
